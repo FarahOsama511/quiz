@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Technical Reports Unified Bank</title>
+<style>
+:root {
+  --bg:#08101f; --panel:#121b33; --panel2:#172444; --text:#eef3ff; --muted:#b6c4f4;
+  --accent:#7ea6ff; --accent2:#59e0b2; --ok:#58e39d; --danger:#ff758f; --warn:#ffc56d;
+  --gold:#ffe66d; --line:rgba(255,255,255,.08);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; color:var(--text); font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+  background:
+    radial-gradient(circle at top right, rgba(125,166,255,.28), transparent 30%),
+    radial-gradient(circle at top left, rgba(89,224,178,.18), transparent 24%),
+    linear-gradient(180deg,#0b1224 0%,#0a1020 50%,#070c16 100%);
+}
+.container { width:min(1200px,94%); margin:auto; padding:24px 0 48px; }
+.hero,.card,.question,.result-box,.answer-row,.mini-card,.study-card,.mistake-item {
+  background:rgba(18,27,51,.92);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.34);
+}
+.hero { padding:28px; position:relative; overflow:hidden; }
+.hero::after {
+  content:"";
+  position:absolute; inset:auto -80px -80px auto; width:220px; height:220px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(126,166,255,.25), transparent 68%);
+}
+h1 { margin:0 0 10px; font-size:clamp(28px,4vw,46px); }
+h2 { margin:0 0 10px; font-size:clamp(23px,3vw,34px); }
+h3 { margin:0 0 10px; font-size:20px; }
+p { color:var(--muted); line-height:1.75; }
+.badges,.btns,.stats,.toolbar,.answer-grid,.meta-row,.chip-row { display:flex; flex-wrap:wrap; gap:10px; }
+.badge,.stat,.pill,.chip,.source-tag,.topic-tag {
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:10px 14px;
+  font-size:14px;
+}
+.badge strong { color:#fff; }
+.card { padding:20px; }
+button {
+  border:0; cursor:pointer; border-radius:16px; padding:12px 16px; font-weight:700; font-size:14px;
+}
+.primary { background:linear-gradient(135deg,var(--accent),#9874ff); color:#fff; }
+.secondary { background:rgba(255,255,255,.08); color:#fff; }
+.success { background:linear-gradient(135deg,#20c98d,#62e8a6); color:#07130e; }
+.danger { background:linear-gradient(135deg,#ff6f87,#ff9bb0); color:#fff; }
+.warning { background:linear-gradient(135deg,#ffd66d,#ffb84f); color:#402100; }
+.ghost { background:transparent; color:#fff; border:1px solid var(--line); }
+.hidden { display:none !important; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); margin-top:24px; }
+.mini-grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }
+.mini-card { padding:18px; }
+.toolbar {
+  justify-content:space-between; align-items:center; margin:18px 0 14px;
+}
+.progress {
+  height:12px; background:rgba(255,255,255,.08); border-radius:999px;
+  overflow:hidden; margin:10px 0 22px;
+}
+.progress > div {
+  height:100%; width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width .25s;
+}
+.question { padding:18px; margin-bottom:18px; }
+.question h4 { margin:0 0 12px; font-size:19px; line-height:1.7; }
+.q-number {
+  display:inline-block; margin-bottom:12px; font-size:12px; padding:6px 10px;
+  border-radius:999px; background:rgba(131,166,255,.16); border:1px solid rgba(131,166,255,.24);
+}
+.meta-row { margin-bottom:12px; }
+.source-tag { background:rgba(124,156,255,.14); }
+.topic-tag { background:rgba(89,224,178,.12); }
+.question-body, .question-body * {
+  direction:ltr; text-align:left;
+}
+.options { display:grid; gap:10px; margin-top:8px; }
+.option {
+  display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:14px;
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); cursor:pointer;
+}
+.option:hover { background:rgba(255,255,255,.06); }
+.option.correct { background:rgba(88,227,157,.12); border-color:rgba(88,227,157,.55); }
+.option.wrong { background:rgba(255,117,143,.12); border-color:rgba(255,117,143,.55); }
+.option.missed { background:rgba(255,197,109,.12); border-color:rgba(255,197,109,.55); }
+.note {
+  margin-top:12px; padding:12px 14px; border-radius:16px;
+  background:rgba(255,255,255,.05); color:var(--muted); line-height:1.8;
+}
+.note .en { direction:ltr; text-align:left; display:block; margin-top:6px; color:#fff; }
+.results { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin:22px 0; }
+.result-box,.mistake-item,.study-card,.answer-row { padding:18px; }
+.big { font-size:36px; font-weight:800; margin-bottom:6px; }
+.answer-grid { gap:12px; }
+.answer-row {
+  min-width:170px; justify-content:space-between; align-items:center; display:flex; gap:10px;
+}
+.answer-row strong { font-size:15px; }
+.section-head {
+  display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin:18px 0 14px;
+}
+.study-grid {
+  display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+}
+.study-card {
+  border-radius:22px;
+}
+.study-card h3 { margin-bottom:8px; }
+.study-card .memorize {
+  background:rgba(255,230,109,.12); border:1px solid rgba(255,230,109,.18);
+  color:#fff0b5; padding:12px 14px; border-radius:16px; margin:12px 0;
+}
+.study-card ul { margin:10px 0 0; padding-right:18px; color:var(--muted); line-height:1.85; }
+.study-card .answer-en, .study-card .answer-ar, .study-card .guide-box {
+  padding:12px 14px; border-radius:16px; margin-top:12px; line-height:1.9;
+}
+.study-card .answer-en { background:rgba(126,166,255,.12); border:1px solid rgba(126,166,255,.22); direction:ltr; text-align:left; color:#f6f8ff; }
+.study-card .answer-ar { background:rgba(89,224,178,.1); border:1px solid rgba(89,224,178,.18); color:#dbfff2; }
+.study-card .guide-box { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); }
+.study-card .tag-mini { display:inline-block; margin-top:6px; font-size:12px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); color:#dfe7ff; }
+.footer-note { margin-top:24px; font-size:13px; color:#c6d1ff; text-align:center; }
+.home-note {
+  margin-top:18px; padding:16px 18px; border-radius:18px;
+  background:rgba(255,255,255,.05); border:1px solid var(--line);
+}
+.sticky-actions {
+  position:sticky; bottom:12px; z-index:10; margin-top:18px;
+}
+hr.soft {
+  border:0; height:1px; background:var(--line); margin:18px 0;
+}
+.accent {
+  color:#fff1a3;
+}
+label input[type="radio"] { margin-top:2px; }
+@media (max-width:700px) {
+  .toolbar,.section-head { flex-direction:column; align-items:flex-start; }
+  .answer-row { min-width:calc(50% - 12px); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <section class="hero">
+    <h1>بنك موحد لمادة <span class="accent">Technical Reports</span></h1>
+    <p>
+      نسخة موحدة ومطورة للمراجعة السريعة: بنك <strong>MCQ</strong> كامل + <strong>True/False</strong> +
+      <strong>إجابات المقالي بالإنجليزي + شرح عربي</strong> + <strong>دليل أوسع وأذكى لحفظ الـ MCQ</strong>.
+      الهدف هنا إن الملف مايبقاش مجرد أسئلة وخلاص، لكن أداة مذاكرة فعلية.
+    </p>
+    <div class="badges">
+      <span class="badge"><strong>98</strong> MCQ</span>
+      <span class="badge"><strong>17</strong> True / False</span>
+      <span class="badge"><strong>9</strong> Essay EN + AR</span>
+      <span class="badge">Offline HTML</span>
+      <span class="badge">Mistake Review</span>
+      <span class="badge">Answer Key</span>
+    </div>
+    <div class="home-note">
+      <strong>حفظة سريعة:</strong>
+      Figure caption تحت - Table caption فوق - IEEE داخل النص بالشكل <span class="question-body">[5]</span> -
+      Methodology = how you did it - Results = what happened - Discussion = why it happened.
+    </div>
+  </section>
+
+  <div class="card" style="margin-top:18px;">
+    <div style="color:var(--muted); font-size:14px; margin-bottom:10px;">طريقة التصحيح</div>
+    <h3 style="margin-bottom:8px;">اختار شكل ظهور الإجابة</h3>
+    <p style="margin-top:0;">ممكن تشوف التصحيح فورًا بعد كل اختيار، أو تخلي كل الأسئلة تتصحح مرة واحدة في الآخر.</p>
+    <div class="btns">
+      <label class="option" style="cursor:pointer; min-width:260px;">
+        <input type="radio" name="feedbackMode" value="instant" onchange="setFeedbackMode('instant')">
+        <span><strong>تصحيح فوري</strong><br><span style="color:var(--muted);">يعرض الصح والغلط مباشرة بعد الاختيار.</span></span>
+      </label>
+      <label class="option" style="cursor:pointer; min-width:260px;">
+        <input type="radio" name="feedbackMode" value="final" checked onchange="setFeedbackMode('final')">
+        <span><strong>تصحيح في النهاية</strong><br><span style="color:var(--muted);">يخفي النتيجة لحد ما تضغط تصحيح.</span></span>
+      </label>
+    </div>
+  </div>
+
+  <section id="homeScreen">
+    <div class="grid">
+      <div class="mini-card">
+        <div style="color:var(--muted); font-size:14px; margin-bottom:12px;">Question Bank</div>
+        <h3>البنك الموحد للـ MCQ</h3>
+        <p>كل أسئلة الاختيار من المصدرين في بنك واحد، مع مراجعة أخطاء وشرح عربي مختصر لكل سؤال.</p>
+        <div class="btns"><button class="primary" onclick="startMode('mcq')">ابدأ بنك الـ MCQ</button></div>
+      </div>
+
+      <div class="mini-card">
+        <div style="color:var(--muted); font-size:14px; margin-bottom:12px;">True / False</div>
+        <h3>قسم الصح والغلط</h3>
+        <p>قسم منفصل لأسئلة الـ T/F مع تصحيح سريع وسبب عربي يساعدك تثبت المعلومة.</p>
+        <div class="btns"><button class="secondary" onclick="startMode('tf')">ابدأ True / False</button></div>
+      </div>
+
+      <div class="mini-card">
+        <div style="color:var(--muted); font-size:14px; margin-bottom:12px;">Essay EN + AR Guide</div>
+        <h3>المقالي: إجابة EN + شرح عربي</h3>
+        <p>كل سؤال مقالي فيه Model Answer بالإنجليزي + شرح مبسّط بالعربي + فكرة سريعة للحفظ قبل الامتحان.</p>
+        <div class="btns"><button class="warning" onclick="openStudy('essayScreen')">افتح شرح المقالي</button></div>
+      </div>
+
+      <div class="mini-card">
+        <div style="color:var(--muted); font-size:14px; margin-bottom:12px;">Smart MCQ Guide</div>
+        <h3>قسم شرح وحفظ الـ MCQ</h3>
+        <p>قسم أوسع فيه تريكات، فروق مشهورة، كلمات مفتاحية، وفخاخ متكررة تخلي اختيار الإجابة الصح أسهل وأسرع.</p>
+        <div class="btns"><button class="success" onclick="openStudy('guideScreen')">افتح دليل الحفظ</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="quizScreen" class="hidden">
+    <div class="toolbar">
+      <div>
+        <h2 id="modeTitle">الوضع</h2>
+        <p id="modeSubtitle">اختار الإجابة المناسبة ثم صحح.</p>
+      </div>
+      <div class="stats">
+        <div class="stat">المجاوب: <strong id="answeredCount">0</strong></div>
+        <div class="stat">المتبقي: <strong id="remainingCount">0</strong></div>
+        <div class="stat">العدد الكلي: <strong id="totalCount">0</strong></div>
+      </div>
+    </div>
+
+    <div class="progress"><div id="progressFill"></div></div>
+
+    <div class="btns" style="margin-bottom:14px;">
+      <button class="primary" onclick="submitQuiz()">صحح الآن</button>
+      <button class="secondary" onclick="toggleAnswerKey()">اعرض Answer Key</button>
+      <button class="ghost" onclick="goHome()">رجوع للرئيسية</button>
+    </div>
+
+    <div id="questionList"></div>
+
+    <div class="sticky-actions btns">
+      <button class="primary" onclick="submitQuiz()">صحح الآن</button>
+      <button class="secondary" onclick="reviewAll()">راجع كل الإجابات</button>
+      <button class="danger" onclick="resetQuiz()">إعادة الحل</button>
+    </div>
+
+    <div id="answerKeySection" class="card hidden" style="margin-top:20px;">
+      <h3>Answer Key</h3>
+      <p>مفتاح الإجابات للوضع المفتوح حاليًا.</p>
+      <div id="answerGrid" class="answer-grid"></div>
+    </div>
+  </section>
+
+  <section id="resultsScreen" class="hidden">
+    <div class="card">
+      <h2>النتيجة</h2>
+      <p>بعد التصحيح تقدر تروح مباشرة للأسئلة الغلط أو الفارغة وتراجعها واحدة واحدة.</p>
+      <div class="results">
+        <div class="result-box"><div class="big" id="scorePercent">0%</div><div>النسبة</div></div>
+        <div class="result-box"><div class="big" id="scoreCorrect">0</div><div>صح</div></div>
+        <div class="result-box"><div class="big" id="scoreWrong">0</div><div>غلط</div></div>
+        <div class="result-box"><div class="big" id="scoreBlank">0</div><div>فاضي</div></div>
+      </div>
+      <div class="btns">
+        <button class="primary" onclick="reviewMistakes()">راجع الغلطات</button>
+        <button class="secondary" onclick="reviewAll()">راجع الكل</button>
+        <button class="ghost" onclick="goHome()">الرئيسية</button>
+      </div>
+    </div>
+    <div id="mistakesWrap" class="card hidden" style="margin-top:18px;">
+      <h3>مراجعة الغلطات</h3>
+      <p>الأسئلة الغلط أو الفاضية فقط، مع الإجابة الصح والشرح العربي.</p>
+      <div id="mistakeList"></div>
+    </div>
+  </section>
+
+  <section id="essayScreen" class="hidden">
+    <div class="section-head">
+      <div>
+        <h2>قسم المقالي: إجابة نموذجية بالإنجليزي + شرح بالعربي</h2>
+        <p>كل كارت فيه السؤال، فكرة للحفظ، إجابة نموذجية بالإنجليزي، وبعدها شرح بالعربي يساعدك تفهم وتحفظ وتكتب بثقة.</p>
+      </div>
+      <div class="btns"><button class="ghost" onclick="goHome()">رجوع للرئيسية</button></div>
+    </div>
+    <div id="essayCards" class="study-grid"></div>
+  </section>
+
+  <section id="guideScreen" class="hidden">
+    <div class="section-head">
+      <div>
+        <h2>قسم شرح وحفظ الـ MCQ</h2>
+        <p>مش مجرد Answer Key؛ ده دليل موسّع يشرح الاتجاهات المتكررة، الكلمات المفتاحية، الفروق المشهورة، والفخاخ التي تتكرر في أسئلة الـ MCQ.</p>
+      </div>
+      <div class="btns"><button class="ghost" onclick="goHome()">رجوع للرئيسية</button></div>
+    </div>
+    <div id="guideCards" class="study-grid"></div>
+  </section>
+
+  <div class="footer-note">افتح الملف في أي متصفح، وسيعمل أوفلاين بالكامل في ملف HTML واحد.</div>
+</div>
+
+<script>
+const DATA = {"mcq": [{"id": 1, "origId": 1, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q1", "category": "Abstract & Summary", "question": "The purpose of the abstract is to:", "options": [{"letter": "A", "text": "Explain references"}, {"letter": "B", "text": "Summarize the whole report"}, {"letter": "C", "text": "Show figures"}, {"letter": "D", "text": "Describe future work"}], "answerLetter": "B", "answerText": "Summarize the whole report", "explanation": "افتكر إن الـ abstract هو snapshot سريع جدًا للتقرير كله: الهدف والطريقة والنتيجة باختصار، من غير تفاصيل مرهقة."}, {"id": 2, "origId": 2, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q2", "category": "General Technical Reports", "question": "Which section explains how the research was conducted?", "options": [{"letter": "A", "text": "Introduction"}, {"letter": "B", "text": "Results"}, {"letter": "C", "text": "Methodology"}, {"letter": "D", "text": "Conclusion"}], "answerLetter": "C", "answerText": "Methodology", "explanation": "الإجابة الصح هي \"Methodology\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 3, "origId": 3, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q3", "category": "General Technical Reports", "question": "Which section presents data and findings?", "options": [{"letter": "A", "text": "Introduction"}, {"letter": "B", "text": "Methodology"}, {"letter": "C", "text": "Results"}, {"letter": "D", "text": "References"}], "answerLetter": "C", "answerText": "Results", "explanation": "الإجابة الصح هي \"Results\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 4, "origId": 4, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q4", "category": "Results, Conclusion & Endings", "question": "The conclusion section mainly:", "options": [{"letter": "A", "text": "Adds new experiments"}, {"letter": "B", "text": "Adds references"}, {"letter": "C", "text": "Summarizes the main findings"}, {"letter": "D", "text": "Explains methodology"}], "answerLetter": "C", "answerText": "Summarizes the main findings", "explanation": "الخاتمة تلخّص وتصدر حكمًا نهائيًا، والـ future work يقترح الخطوة التالية، والـ limitations توضّح حدود الدراسة بصدق."}, {"id": 5, "origId": 5, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q5", "category": "Referencing & Academic Integrity", "question": "A reference is used to:", "options": [{"letter": "A", "text": "Make the report longer"}, {"letter": "B", "text": "Show the source of information"}, {"letter": "C", "text": "Replace the introduction"}, {"letter": "D", "text": "Add figures"}], "answerLetter": "B", "answerText": "Show the source of information", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 6, "origId": 6, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q6", "category": "Referencing & Academic Integrity", "question": "Using someone else's work without citing the source is called:", "options": [{"letter": "A", "text": "Citation"}, {"letter": "B", "text": "Referencing"}, {"letter": "C", "text": "Plagiarism"}, {"letter": "D", "text": "Paraphrasing"}], "answerLetter": "C", "answerText": "Plagiarism", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 7, "origId": 7, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q7", "category": "Referencing & Academic Integrity", "question": "In IEEE style, citations appear as:", "options": [{"letter": "A", "text": "(Author, year)"}, {"letter": "B", "text": "[Author, year]"}, {"letter": "C", "text": "[1], [2], [3]"}, {"letter": "D", "text": "{1}, {2}"}], "answerLetter": "C", "answerText": "[1], [2], [3]", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 8, "origId": 8, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q8", "category": "Formatting & Visual Elements", "question": "Where is the figure caption placed?", "options": [{"letter": "A", "text": "Above the figure"}, {"letter": "B", "text": "Below the figure"}, {"letter": "C", "text": "On the side"}, {"letter": "D", "text": "In references"}], "answerLetter": "B", "answerText": "Below the figure", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 9, "origId": 9, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q9", "category": "Formatting & Visual Elements", "question": "Where is the table caption usually placed?", "options": [{"letter": "A", "text": "Above the table"}, {"letter": "B", "text": "Below the table"}, {"letter": "C", "text": "Inside the table"}, {"letter": "D", "text": "In references"}], "answerLetter": "A", "answerText": "Above the table", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 10, "origId": 10, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q10", "category": "Formatting & Visual Elements", "question": "If a figure is taken from another paper, you must:", "options": [{"letter": "A", "text": "Delete the author name"}, {"letter": "B", "text": "Ignore the source"}, {"letter": "C", "text": "Add a reference"}, {"letter": "D", "text": "Change the title"}], "answerLetter": "C", "answerText": "Add a reference", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 11, "origId": 11, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q11", "category": "Methodology", "question": "Which tense is commonly used in methodology?", "options": [{"letter": "A", "text": "Future"}, {"letter": "B", "text": "Present"}, {"letter": "C", "text": "Past"}, {"letter": "D", "text": "Continuous"}], "answerLetter": "C", "answerText": "Past", "explanation": "المنهجية بتجاوب سؤال: إزاي اشتغلت؟ لذلك لازم تكون واضحة كفاية بحيث أي باحث يقدر يعيد نفس الخطوات."}, {"id": 12, "origId": 12, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q12", "category": "Introduction", "question": "Which tense is commonly used in introduction?", "options": [{"letter": "A", "text": "Present"}, {"letter": "B", "text": "Past"}, {"letter": "C", "text": "Future"}, {"letter": "D", "text": "Perfect"}], "answerLetter": "A", "answerText": "Present", "explanation": "المقدمة شغلها تجهّز القارئ: تشرح الخلفية والنقطة اللي هنبدأ منها والهدف والمتطلبات الأساسية، وليس عرض النتائج النهائية."}, {"id": 13, "origId": 13, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q13", "category": "General Technical Reports", "question": "A technical report should be:", "options": [{"letter": "A", "text": "Emotional"}, {"letter": "B", "text": "Informal"}, {"letter": "C", "text": "Clear and objective"}, {"letter": "D", "text": "Personal"}], "answerLetter": "C", "answerText": "Clear and objective", "explanation": "الإجابة الصح هي \"Clear and objective\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 14, "origId": 14, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q14", "category": "Writing Style & Audience", "question": "Which is preferred in technical writing?", "options": [{"letter": "A", "text": "I designed the system"}, {"letter": "B", "text": "We tested the model"}, {"letter": "C", "text": "The system was designed"}, {"letter": "D", "text": "I made the experiment"}], "answerLetter": "C", "answerText": "The system was designed", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 15, "origId": 15, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q15", "category": "General Technical Reports", "question": "Which section explains the problem and background?", "options": [{"letter": "A", "text": "Results"}, {"letter": "B", "text": "Introduction"}, {"letter": "C", "text": "Conclusion"}, {"letter": "D", "text": "References"}], "answerLetter": "B", "answerText": "Introduction", "explanation": "الإجابة الصح هي \"Introduction\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 16, "origId": 16, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q16", "category": "General Technical Reports", "question": "A technical claim should be supported by:", "options": [{"letter": "A", "text": "Opinions"}, {"letter": "B", "text": "Figures only"}, {"letter": "C", "text": "References"}, {"letter": "D", "text": "Tables only"}], "answerLetter": "C", "answerText": "References", "explanation": "الإجابة الصح هي \"References\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 17, "origId": 17, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q17", "category": "Writing Style & Audience", "question": "Which of the following best describes good technical writing?", "options": [{"letter": "A", "text": "Emotional and descriptive"}, {"letter": "B", "text": "Very long and detailed"}, {"letter": "C", "text": "Clear, concise, and objective"}, {"letter": "D", "text": "Personal and informal"}], "answerLetter": "C", "answerText": "Clear, concise, and objective", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 18, "origId": 18, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q18", "category": "General Technical Reports", "question": "Which section describes study constraints?", "options": [{"letter": "A", "text": "Abstract"}, {"letter": "B", "text": "Limitations"}, {"letter": "C", "text": "Results"}, {"letter": "D", "text": "References"}], "answerLetter": "B", "answerText": "Limitations", "explanation": "الإجابة الصح هي \"Limitations\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 19, "origId": 19, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q19", "category": "Results, Conclusion & Endings", "question": "Future work usually suggests:", "options": [{"letter": "A", "text": "Past results"}, {"letter": "B", "text": "Possible improvements"}, {"letter": "C", "text": "References"}, {"letter": "D", "text": "Figures"}], "answerLetter": "B", "answerText": "Possible improvements", "explanation": "الخاتمة تلخّص وتصدر حكمًا نهائيًا، والـ future work يقترح الخطوة التالية، والـ limitations توضّح حدود الدراسة بصدق."}, {"id": 20, "origId": 20, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q20", "category": "Formatting & Visual Elements", "question": "A figure must be:", "options": [{"letter": "A", "text": "Decorative"}, {"letter": "B", "text": "Large only"}, {"letter": "C", "text": "Referenced in the text"}, {"letter": "D", "text": "Without caption"}], "answerLetter": "C", "answerText": "Referenced in the text", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 21, "origId": 21, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q21", "category": "General Technical Reports", "question": "Which is a common mistake in technical reports?", "options": [{"letter": "A", "text": "Clear figures"}, {"letter": "B", "text": "Missing references"}, {"letter": "C", "text": "Proper captions"}, {"letter": "D", "text": "Clear objectives"}], "answerLetter": "B", "answerText": "Missing references", "explanation": "الإجابة الصح هي \"Missing references\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 22, "origId": 22, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q22", "category": "Referencing & Academic Integrity", "question": "The reference list is usually placed:", "options": [{"letter": "A", "text": "At the beginning"}, {"letter": "B", "text": "At the end of the report"}, {"letter": "C", "text": "In methodology"}, {"letter": "D", "text": "In results"}], "answerLetter": "B", "answerText": "At the end of the report", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 23, "origId": 23, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q23", "category": "General Technical Reports", "question": "Which section briefly describes the whole report?", "options": [{"letter": "A", "text": "Abstract"}, {"letter": "B", "text": "Methodology"}, {"letter": "C", "text": "Results"}, {"letter": "D", "text": "References"}], "answerLetter": "A", "answerText": "Abstract", "explanation": "الإجابة الصح هي \"Abstract\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 24, "origId": 24, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q24", "category": "Abstract & Summary", "question": "A good abstract should be:", "options": [{"letter": "A", "text": "Very long"}, {"letter": "B", "text": "Concise and clear"}, {"letter": "C", "text": "Informal"}, {"letter": "D", "text": "Personal"}], "answerLetter": "B", "answerText": "Concise and clear", "explanation": "افتكر إن الـ abstract هو snapshot سريع جدًا للتقرير كله: الهدف والطريقة والنتيجة باختصار، من غير تفاصيل مرهقة."}, {"id": 25, "origId": 25, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q25", "category": "Methodology", "question": "Replication in methodology means:", "options": [{"letter": "A", "text": "Copying work"}, {"letter": "B", "text": "Allowing others to repeat the experiment"}, {"letter": "C", "text": "Writing references"}, {"letter": "D", "text": "Showing figures"}], "answerLetter": "B", "answerText": "Allowing others to repeat the experiment", "explanation": "المنهجية بتجاوب سؤال: إزاي اشتغلت؟ لذلك لازم تكون واضحة كفاية بحيث أي باحث يقدر يعيد نفس الخطوات."}, {"id": 26, "origId": 26, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q26", "category": "General Technical Reports", "question": "Which part shows numerical data clearly?", "options": [{"letter": "A", "text": "Introduction"}, {"letter": "B", "text": "Tables"}, {"letter": "C", "text": "Conclusion"}, {"letter": "D", "text": "Abstract"}], "answerLetter": "B", "answerText": "Tables", "explanation": "الإجابة الصح هي \"Tables\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 27, "origId": 27, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q27", "category": "Formatting & Visual Elements", "question": "Figures are useful for:", "options": [{"letter": "A", "text": "Decoration"}, {"letter": "B", "text": "Visual explanation of results"}, {"letter": "C", "text": "Writing references"}, {"letter": "D", "text": "Writing conclusions"}], "answerLetter": "B", "answerText": "Visual explanation of results", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 28, "origId": 28, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q28", "category": "Results, Conclusion & Endings", "question": "Which section explains why results happened?", "options": [{"letter": "A", "text": "Abstract"}, {"letter": "B", "text": "Discussion"}, {"letter": "C", "text": "Methodology"}, {"letter": "D", "text": "References"}], "answerLetter": "B", "answerText": "Discussion", "explanation": "قسم النتائج يعرض ما تم الوصول إليه فعلًا: أرقام، جداول، مخرجات، ونِسَب أداء؛ من غير تفسير مطوّل."}, {"id": 29, "origId": 29, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q29", "category": "Referencing & Academic Integrity", "question": "Copying a paragraph without citation is:", "options": [{"letter": "A", "text": "Referencing"}, {"letter": "B", "text": "Quoting"}, {"letter": "C", "text": "Plagiarism"}, {"letter": "D", "text": "Editing"}], "answerLetter": "C", "answerText": "Plagiarism", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 30, "origId": 30, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q30", "category": "General Technical Reports", "question": "Paraphrasing means:", "options": [{"letter": "A", "text": "Copying text"}, {"letter": "B", "text": "Rewriting ideas in your own words"}, {"letter": "C", "text": "Deleting text"}, {"letter": "D", "text": "Adding figures"}], "answerLetter": "B", "answerText": "Rewriting ideas in your own words", "explanation": "الإجابة الصح هي \"Rewriting ideas in your own words\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 31, "origId": 31, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q31", "category": "General Technical Reports", "question": "Which writing style is preferred in technical reports?", "options": [{"letter": "A", "text": "Emotional"}, {"letter": "B", "text": "Storytelling"}, {"letter": "C", "text": "Formal"}, {"letter": "D", "text": "Personal"}], "answerLetter": "C", "answerText": "Formal", "explanation": "الإجابة الصح هي \"Formal\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 32, "origId": 32, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q32", "category": "Referencing & Academic Integrity", "question": "Which is NOT a reliable reference source?", "options": [{"letter": "A", "text": "Journal paper"}, {"letter": "B", "text": "Book"}, {"letter": "C", "text": "Random blog"}, {"letter": "D", "text": "Conference paper"}], "answerLetter": "C", "answerText": "Random blog", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 33, "origId": 33, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q33", "category": "General Technical Reports", "question": "Which section states the main achievements?", "options": [{"letter": "A", "text": "Introduction"}, {"letter": "B", "text": "Results"}, {"letter": "C", "text": "Conclusion"}, {"letter": "D", "text": "References"}], "answerLetter": "C", "answerText": "Conclusion", "explanation": "الإجابة الصح هي \"Conclusion\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 34, "origId": 34, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q34", "category": "Formatting & Visual Elements", "question": "Figures in section 3 should be numbered like:", "options": [{"letter": "A", "text": "Figure 1"}, {"letter": "B", "text": "Figure 3.1"}, {"letter": "C", "text": "Figure A"}, {"letter": "D", "text": "Figure 10"}], "answerLetter": "B", "answerText": "Figure 3.1", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 35, "origId": 35, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q35", "category": "Results, Conclusion & Endings", "question": "Which element improves readability of results?", "options": [{"letter": "A", "text": "Paragraphs only"}, {"letter": "B", "text": "Figures and tables"}, {"letter": "C", "text": "References"}, {"letter": "D", "text": "Titles"}], "answerLetter": "B", "answerText": "Figures and tables", "explanation": "قسم النتائج يعرض ما تم الوصول إليه فعلًا: أرقام، جداول، مخرجات، ونِسَب أداء؛ من غير تفسير مطوّل."}, {"id": 36, "origId": 36, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q36", "category": "Formatting & Visual Elements", "question": "A caption should:", "options": [{"letter": "A", "text": "Be very long"}, {"letter": "B", "text": "Briefly describe the figure"}, {"letter": "C", "text": "Replace the text"}, {"letter": "D", "text": "Ignore references"}], "answerLetter": "B", "answerText": "Briefly describe the figure", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 37, "origId": 37, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q37", "category": "Results, Conclusion & Endings", "question": "A research limitation means:", "options": [{"letter": "A", "text": "Error in writing"}, {"letter": "B", "text": "Restriction in the study"}, {"letter": "C", "text": "Reference issue"}, {"letter": "D", "text": "Figure problem"}], "answerLetter": "B", "answerText": "Restriction in the study", "explanation": "الخاتمة تلخّص وتصدر حكمًا نهائيًا، والـ future work يقترح الخطوة التالية، والـ limitations توضّح حدود الدراسة بصدق."}, {"id": 38, "origId": 38, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q38", "category": "Results, Conclusion & Endings", "question": "Future work is usually placed:", "options": [{"letter": "A", "text": "Before introduction"}, {"letter": "B", "text": "After conclusion"}, {"letter": "C", "text": "In abstract"}, {"letter": "D", "text": "In references"}], "answerLetter": "B", "answerText": "After conclusion", "explanation": "الخاتمة تلخّص وتصدر حكمًا نهائيًا، والـ future work يقترح الخطوة التالية، والـ limitations توضّح حدود الدراسة بصدق."}, {"id": 39, "origId": 39, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q39", "category": "Writing Style & Audience", "question": "Technical writing should avoid:", "options": [{"letter": "A", "text": "Figures"}, {"letter": "B", "text": "Tables"}, {"letter": "C", "text": "Informal language"}, {"letter": "D", "text": "References"}], "answerLetter": "C", "answerText": "Informal language", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 40, "origId": 40, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q40", "category": "General Technical Reports", "question": "Which improves credibility of a report?", "options": [{"letter": "A", "text": "Long sentences"}, {"letter": "B", "text": "Opinions"}, {"letter": "C", "text": "Proper references"}, {"letter": "D", "text": "Personal stories"}], "answerLetter": "C", "answerText": "Proper references", "explanation": "الإجابة الصح هي \"Proper references\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 41, "origId": 41, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q41", "category": "Formatting & Visual Elements", "question": "A figure without caption is:", "options": [{"letter": "A", "text": "Correct"}, {"letter": "B", "text": "Incorrect"}, {"letter": "C", "text": "Optional"}, {"letter": "D", "text": "Preferred"}], "answerLetter": "B", "answerText": "Incorrect", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 42, "origId": 42, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q42", "category": "Formatting & Visual Elements", "question": "Tables are best used for:", "options": [{"letter": "A", "text": "Images"}, {"letter": "B", "text": "Numerical data"}, {"letter": "C", "text": "Titles"}, {"letter": "D", "text": "References"}], "answerLetter": "B", "answerText": "Numerical data", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 43, "origId": 43, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q43", "category": "Writing Style & Audience", "question": "Which is part of good technical writing?", "options": [{"letter": "A", "text": "Vagueness"}, {"letter": "B", "text": "Clarity"}, {"letter": "C", "text": "Emotion"}, {"letter": "D", "text": "Storytelling"}], "answerLetter": "B", "answerText": "Clarity", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 44, "origId": 44, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q44", "category": "Methodology", "question": "Which section describes the research method?", "options": [{"letter": "A", "text": "Abstract"}, {"letter": "B", "text": "Methodology"}, {"letter": "C", "text": "Results"}, {"letter": "D", "text": "Conclusion"}], "answerLetter": "B", "answerText": "Methodology", "explanation": "الإجابة الصح هي \"Methodology\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 45, "origId": 45, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q45", "category": "Referencing & Academic Integrity", "question": "Which section lists sources used in the report?", "options": [{"letter": "A", "text": "Abstract"}, {"letter": "B", "text": "Results"}, {"letter": "C", "text": "References"}, {"letter": "D", "text": "Conclusion"}], "answerLetter": "C", "answerText": "References", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 46, "origId": 46, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q46", "category": "Writing Style & Audience", "question": "A report objective should be:", "options": [{"letter": "A", "text": "Hidden"}, {"letter": "B", "text": "Clearly stated"}, {"letter": "C", "text": "Very long"}, {"letter": "D", "text": "Emotional"}], "answerLetter": "B", "answerText": "Clearly stated", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 47, "origId": 47, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q47", "category": "General Technical Reports", "question": "Which improves understanding of complex systems?", "options": [{"letter": "A", "text": "Long text"}, {"letter": "B", "text": "Block diagrams"}, {"letter": "C", "text": "References"}, {"letter": "D", "text": "Titles"}], "answerLetter": "B", "answerText": "Block diagrams", "explanation": "الإجابة الصح هي \"Block diagrams\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 48, "origId": 48, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q48", "category": "General Technical Reports", "question": "Academic integrity requires:", "options": [{"letter": "A", "text": "Copying work"}, {"letter": "B", "text": "Ignoring references"}, {"letter": "C", "text": "Citing sources properly"}, {"letter": "D", "text": "Writing long paragraphs"}], "answerLetter": "C", "answerText": "Citing sources properly", "explanation": "الإجابة الصح هي \"Citing sources properly\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 49, "origId": 49, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q49", "category": "General Technical Reports", "question": "Which is a characteristic of good reports?", "options": [{"letter": "A", "text": "Ambiguity"}, {"letter": "B", "text": "Conciseness"}, {"letter": "C", "text": "Emotion"}, {"letter": "D", "text": "Storytelling"}], "answerLetter": "B", "answerText": "Conciseness", "explanation": "الإجابة الصح هي \"Conciseness\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 50, "origId": 50, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q50", "category": "General Technical Reports", "question": "Before submitting a report, students should:", "options": [{"letter": "A", "text": "Ignore references"}, {"letter": "B", "text": "Remove figures"}, {"letter": "C", "text": "Check grammar and citations"}, {"letter": "D", "text": "Delete conclusion"}], "answerLetter": "C", "answerText": "Check grammar and citations", "explanation": "الإجابة الصح هي \"Check grammar and citations\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 51, "origId": 51, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q51", "category": "Referencing & Academic Integrity", "question": "Which of the following statements best describes plagiarism?", "options": [{"letter": "A", "text": "Using figures from your experiment"}, {"letter": "B", "text": "Using another author's work without proper citation"}, {"letter": "C", "text": "Writing long paragraphs"}, {"letter": "D", "text": "Summarizing results"}], "answerLetter": "B", "answerText": "Using another author's work without proper citation", "explanation": "الانتحال معناه تنسب شغل غيرك لنفسك. وPatch-writing يعني تغيّر شوية كلمات لكن تسيب نفس البناء، وده برضه غلط."}, {"id": 52, "origId": 52, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q52", "category": "Formatting & Visual Elements", "question": "If a figure is modified from another paper, the correct caption should include:", "options": [{"letter": "A", "text": "Only the figure title"}, {"letter": "B", "text": "No citation"}, {"letter": "C", "text": "Adapted from [reference number]"}, {"letter": "D", "text": "Only the author name"}], "answerLetter": "C", "answerText": "Adapted from [reference number]", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 53, "origId": 53, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q53", "category": "Abstract & Summary", "question": "Which of the following should NOT normally appear in the abstract?", "options": [{"letter": "A", "text": "Research objective"}, {"letter": "B", "text": "Method summary"}, {"letter": "C", "text": "Main results"}, {"letter": "D", "text": "Detailed references"}], "answerLetter": "D", "answerText": "Detailed references", "explanation": "افتكر إن الـ abstract هو snapshot سريع جدًا للتقرير كله: الهدف والطريقة والنتيجة باختصار، من غير تفاصيل مرهقة."}, {"id": 54, "origId": 54, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q54", "category": "Methodology", "question": "Which of the following is the main purpose of the methodology section?", "options": [{"letter": "A", "text": "Present experimental results"}, {"letter": "B", "text": "Provide references"}, {"letter": "C", "text": "Allow other researchers to replicate the study"}, {"letter": "D", "text": "Summarize the entire report"}], "answerLetter": "C", "answerText": "Allow other researchers to replicate the study", "explanation": "المنهجية بتجاوب سؤال: إزاي اشتغلت؟ لذلك لازم تكون واضحة كفاية بحيث أي باحث يقدر يعيد نفس الخطوات."}, {"id": 55, "origId": 55, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q55", "category": "Writing Style & Audience", "question": "In technical writing, the sentence: \"We built a very amazing and cool system.\" is considered poor because:", "options": [{"letter": "A", "text": "It is too short"}, {"letter": "B", "text": "It uses technical vocabulary"}, {"letter": "C", "text": "It uses informal and subjective language"}, {"letter": "D", "text": "It is grammatically correct"}], "answerLetter": "C", "answerText": "It uses informal and subjective language", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 56, "origId": 56, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q56", "category": "Writing Style & Audience", "question": "Which of the following best improves clarity in technical reports?", "options": [{"letter": "A", "text": "Long paragraphs"}, {"letter": "B", "text": "Informal writing"}, {"letter": "C", "text": "Using figures and tables to present data"}, {"letter": "D", "text": "Avoiding captions"}], "answerLetter": "C", "answerText": "Using figures and tables to present data", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 57, "origId": 57, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q57", "category": "General Technical Reports", "question": "A technical claim such as: \"Machine learning significantly improves prediction accuracy.\" should ideally be supported by:", "options": [{"letter": "A", "text": "A personal opinion"}, {"letter": "B", "text": "A long paragraph"}, {"letter": "C", "text": "A reliable reference or research study"}, {"letter": "D", "text": "A table only"}], "answerLetter": "C", "answerText": "A reliable reference or research study", "explanation": "الإجابة الصح هي \"A reliable reference or research study\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 58, "origId": 58, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q58", "category": "Results, Conclusion & Endings", "question": "Which of the following is NOT a limitation of a study?", "options": [{"letter": "A", "text": "Limited dataset"}, {"letter": "B", "text": "Restricted testing conditions"}, {"letter": "C", "text": "Limited hardware resources"}, {"letter": "D", "text": "Summary of results"}], "answerLetter": "D", "answerText": "Summary of results", "explanation": "الخاتمة تلخّص وتصدر حكمًا نهائيًا، والـ future work يقترح الخطوة التالية، والـ limitations توضّح حدود الدراسة بصدق."}, {"id": 59, "origId": 59, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q59", "category": "General Technical Reports", "question": "If a report states: \"The proposed system reduces energy consumption by 30%.\" the most appropriate section for this statement is:", "options": [{"letter": "A", "text": "Introduction"}, {"letter": "B", "text": "Results"}, {"letter": "C", "text": "References"}, {"letter": "D", "text": "Future Work"}], "answerLetter": "B", "answerText": "Results", "explanation": "الإجابة الصح هي \"Results\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 60, "origId": 60, "source": "Question Bank.pdf", "sourceLabel": "Question Bank.pdf • Q60", "category": "Referencing & Academic Integrity", "question": "Which of the following is the correct IEEE-style citation format inside the text?", "options": [{"letter": "A", "text": "(Smith, 2018)"}, {"letter": "B", "text": "Smith, 2018"}, {"letter": "C", "text": "{Smith 2018}"}, {"letter": "D", "text": "[5]"}], "answerLetter": "D", "answerText": "[5]", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 61, "origId": 1, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q1", "category": "General Technical Reports", "question": "What is the primary goal of a Technical Report?", "options": [{"letter": "A", "text": "To show the writer's linguistic skills"}, {"letter": "B", "text": "To bring absolute clarity to the reader"}, {"letter": "C", "text": "To lengthen the content as much as possible"}, {"letter": "D", "text": "To express personal opinion"}], "answerLetter": "B", "answerText": "To bring absolute clarity to the reader", "explanation": "الإجابة الصح هي \"To bring absolute clarity to the reader\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 62, "origId": 2, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q2", "category": "Writing Style & Audience", "question": "Technical writing differs from business writing in:", "options": [{"letter": "A", "text": "Using clear language"}, {"letter": "B", "text": "Subject matter and domain"}, {"letter": "C", "text": "Objectivity"}, {"letter": "D", "text": "Conciseness"}], "answerLetter": "B", "answerText": "Subject matter and domain", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 63, "origId": 3, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q3", "category": "Writing Style & Audience", "question": "Who is classified as a \"Subject Matter Expert\" in technical writing?", "options": [{"letter": "A", "text": "Only full-time writers"}, {"letter": "B", "text": "Engineers and scientists who write as part of their daily work"}, {"letter": "C", "text": "Only students"}, {"letter": "D", "text": "Publishers"}], "answerLetter": "B", "answerText": "Engineers and scientists who write as part of their daily work", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 64, "origId": 4, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q4", "category": "General Technical Reports", "question": "Classification by orientation includes:", "options": [{"letter": "A", "text": "Pedagogical, theoretical, and professional orientation"}, {"letter": "B", "text": "Religious and political orientation"}, {"letter": "C", "text": "Literary and poetic orientation"}, {"letter": "D", "text": "Only commercial orientation"}], "answerLetter": "A", "answerText": "Pedagogical, theoretical, and professional orientation", "explanation": "الإجابة الصح هي \"Pedagogical, theoretical, and professional orientation\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 65, "origId": 5, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q5", "category": "Referencing & Academic Integrity", "question": "Self-plagiarism means:", "options": [{"letter": "A", "text": "Copying work from the internet"}, {"letter": "B", "text": "Reusing your own previously published work without citation"}, {"letter": "C", "text": "Plagiarizing from multiple sources"}, {"letter": "D", "text": "Not mentioning the author's name"}], "answerLetter": "B", "answerText": "Reusing your own previously published work without citation", "explanation": "الانتحال معناه تنسب شغل غيرك لنفسك. وPatch-writing يعني تغيّر شوية كلمات لكن تسيب نفس البناء، وده برضه غلط."}, {"id": 66, "origId": 6, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q6", "category": "Referencing & Academic Integrity", "question": "How many core quality attributes derived from IEEE 830 apply to most technical writing?", "options": [{"letter": "A", "text": "3"}, {"letter": "B", "text": "5"}, {"letter": "C", "text": "8"}, {"letter": "D", "text": "10"}], "answerLetter": "B", "answerText": "5", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 67, "origId": 7, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q7", "category": "Writing Style & Audience", "question": "The \"5 Cs\" of technical writing are:", "options": [{"letter": "A", "text": "Creativity, beauty, eloquence, clarity, conciseness"}, {"letter": "B", "text": "Correctness, clarity, completeness, consistency, changeability"}, {"letter": "C", "text": "Cost, time, effort, resources, management"}, {"letter": "D", "text": "Introduction, body, conclusion, appendices, references"}], "answerLetter": "B", "answerText": "Correctness, clarity, completeness, consistency, changeability", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 68, "origId": 8, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q8", "category": "Referencing & Academic Integrity", "question": "Plagiarism is:", "options": [{"letter": "A", "text": "Presenting someone else's work as your own"}, {"letter": "B", "text": "Using too many sources"}, {"letter": "C", "text": "Writing a long introduction"}, {"letter": "D", "text": "Using footnotes"}], "answerLetter": "A", "answerText": "Presenting someone else's work as your own", "explanation": "الانتحال معناه تنسب شغل غيرك لنفسك. وPatch-writing يعني تغيّر شوية كلمات لكن تسيب نفس البناء، وده برضه غلط."}, {"id": 69, "origId": 9, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q9", "category": "Writing Style & Audience", "question": "Completeness in a technical report is a concept that is:", "options": [{"letter": "A", "text": "Absolute and fixed"}, {"letter": "B", "text": "Relative, depending on the reader's needs"}, {"letter": "C", "text": "Unimportant"}, {"letter": "D", "text": "Always easy to achieve"}], "answerLetter": "B", "answerText": "Relative, depending on the reader's needs", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 70, "origId": 10, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q10", "category": "Writing Style & Audience", "question": "External consistency means:", "options": [{"letter": "A", "text": "All parts of the document are consistent with each other"}, {"letter": "B", "text": "The document agrees with external sources and specifications"}, {"letter": "C", "text": "Consistency of page margins"}, {"letter": "D", "text": "Using the same font type"}], "answerLetter": "B", "answerText": "The document agrees with external sources and specifications", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 71, "origId": 11, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q11", "category": "Writing Style & Audience", "question": "Changeability requires that the document be:", "options": [{"letter": "A", "text": "Printed on luxury paper"}, {"letter": "B", "text": "Organized, numbered, and stored electronically"}, {"letter": "C", "text": "Very long"}, {"letter": "D", "text": "Handwritten"}], "answerLetter": "B", "answerText": "Organized, numbered, and stored electronically", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 72, "origId": 12, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q12", "category": "Referencing & Academic Integrity", "question": "According to Goldman [2010], which type of source is perceived as more credible?", "options": [{"letter": "A", "text": "Wiki-style"}, {"letter": "B", "text": "Anonymous sources"}, {"letter": "C", "text": "Personal blogs"}, {"letter": "D", "text": "Conventionally authored content"}], "answerLetter": "D", "answerText": "Conventionally authored content", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 73, "origId": 13, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q13", "category": "Writing Style & Audience", "question": "Which type of audience has the least amount of technical background?", "options": [{"letter": "A", "text": "Experts"}, {"letter": "B", "text": "Executives"}, {"letter": "C", "text": "Technicians"}, {"letter": "D", "text": "Nonspecialists"}], "answerLetter": "D", "answerText": "Nonspecialists", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 74, "origId": 14, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q14", "category": "General Technical Reports", "question": "Adapting content means:", "options": [{"letter": "A", "text": "Writing the same content for everyone"}, {"letter": "B", "text": "Tailoring content to fit the target audience's needs"}, {"letter": "C", "text": "Always using complex language"}, {"letter": "D", "text": "Avoiding examples"}], "answerLetter": "B", "answerText": "Tailoring content to fit the target audience's needs", "explanation": "الإجابة الصح هي \"Tailoring content to fit the target audience's needs\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 75, "origId": 15, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q15", "category": "General Technical Reports", "question": "Information pruning means:", "options": [{"letter": "A", "text": "Adding more details"}, {"letter": "B", "text": "Repeating information"}, {"letter": "C", "text": "Omitting data the reader does not need"}, {"letter": "D", "text": "Using larger fonts"}], "answerLetter": "C", "answerText": "Omitting data the reader does not need", "explanation": "الإجابة الصح هي \"Omitting data the reader does not need\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 76, "origId": 16, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q16", "category": "Writing Style & Audience", "question": "The ideal sentence length in technical writing is:", "options": [{"letter": "A", "text": "15-25 words"}, {"letter": "B", "text": "5-10 words"}, {"letter": "C", "text": "40-50 words"}, {"letter": "D", "text": "More than 60 words"}], "answerLetter": "A", "answerText": "15-25 words", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 77, "origId": 17, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q17", "category": "General Technical Reports", "question": "For online reading, it is preferable to use:", "options": [{"letter": "A", "text": "Serif fonts (e.g., Times New Roman)"}, {"letter": "B", "text": "Sans-serif fonts (e.g., Arial)"}, {"letter": "C", "text": "Decorative fonts"}, {"letter": "D", "text": "Handwriting fonts"}], "answerLetter": "B", "answerText": "Sans-serif fonts (e.g., Arial)", "explanation": "الإجابة الصح هي \"Sans-serif fonts (e.g., Arial)\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 78, "origId": 18, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q18", "category": "Formatting & Visual Elements", "question": "The cover letter in a technical report is:", "options": [{"letter": "A", "text": "The main title page"}, {"letter": "B", "text": "The table of contents"}, {"letter": "C", "text": "A letter explaining the context of the report's preparation"}, {"letter": "D", "text": "The executive summary"}], "answerLetter": "C", "answerText": "A letter explaining the context of the report's preparation", "explanation": "دي أسئلة تنظيم التقرير وشكله الرسمي؛ ركّز على أماكن العناصر ووظيفتها، لأن الامتحان بيحب الحاجات دي جدًا."}, {"id": 79, "origId": 19, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q19", "category": "Abstract & Summary", "question": "A descriptive abstract provides:", "options": [{"letter": "A", "text": "All key facts and conclusions"}, {"letter": "B", "text": "An overview of the purpose and contents only"}, {"letter": "C", "text": "Details of laboratory experiments"}, {"letter": "D", "text": "Future recommendations"}], "answerLetter": "B", "answerText": "An overview of the purpose and contents only", "explanation": "افتكر إن الـ abstract هو snapshot سريع جدًا للتقرير كله: الهدف والطريقة والنتيجة باختصار، من غير تفاصيل مرهقة."}, {"id": 80, "origId": 20, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q20", "category": "Abstract & Summary", "question": "An executive summary should typically be:", "options": [{"letter": "A", "text": "1/10 to 1/20 of the report's length"}, {"letter": "B", "text": "Equal to the report's length"}, {"letter": "C", "text": "Only one page regardless of report length"}, {"letter": "D", "text": "Half the report's length"}], "answerLetter": "A", "answerText": "1/10 to 1/20 of the report's length", "explanation": "الملخص الوصفي بيعرّف القارئ بالموضوع والمحتوى، بينما الـ executive summary بيدي أهم الحقائق والاستنتاجات بصورة أوسع وموجهة لاتخاذ القرار."}, {"id": 81, "origId": 21, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q21", "category": "Formatting & Visual Elements", "question": "In the table of contents, main chapters are usually written in:", "options": [{"letter": "A", "text": "Lowercase letters"}, {"letter": "B", "text": "Italics"}, {"letter": "C", "text": "Underlined"}, {"letter": "D", "text": "ALL CAPS"}], "answerLetter": "D", "answerText": "ALL CAPS", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 82, "origId": 22, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q22", "category": "Formatting & Visual Elements", "question": "If a document has more than two figures or tables, you should:", "options": [{"letter": "A", "text": "Combine them together"}, {"letter": "B", "text": "Ignore the tables"}, {"letter": "C", "text": "Create a separate list of figures and tables"}, {"letter": "D", "text": "Put them only in the appendix"}], "answerLetter": "C", "answerText": "Create a separate list of figures and tables", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 83, "origId": 31, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q31", "category": "Introduction", "question": "What is the primary function of a report's introduction?", "options": [{"letter": "A", "text": "To present the final results"}, {"letter": "B", "text": "To provide acknowledgments"}, {"letter": "C", "text": "To list references"}, {"letter": "D", "text": "To prepare the reader to read the main body of the report"}], "answerLetter": "D", "answerText": "To prepare the reader to read the main body of the report", "explanation": "المقدمة شغلها تجهّز القارئ: تشرح الخلفية والنقطة اللي هنبدأ منها والهدف والمتطلبات الأساسية، وليس عرض النتائج النهائية."}, {"id": 84, "origId": 32, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q32", "category": "Introduction", "question": "Which of the following is NOT a function of the introduction?", "options": [{"letter": "A", "text": "Defining the starting point"}, {"letter": "B", "text": "Describing scope and targets"}, {"letter": "C", "text": "Providing detailed recommendations"}, {"letter": "D", "text": "Mentioning technical prerequisites"}], "answerLetter": "C", "answerText": "Providing detailed recommendations", "explanation": "المقدمة شغلها تجهّز القارئ: تشرح الخلفية والنقطة اللي هنبدأ منها والهدف والمتطلبات الأساسية، وليس عرض النتائج النهائية."}, {"id": 85, "origId": 33, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q33", "category": "Abstract & Summary", "question": "The summary is located:", "options": [{"letter": "A", "text": "At the beginning of the report"}, {"letter": "B", "text": "At the end of the report"}, {"letter": "C", "text": "In the middle of the report"}, {"letter": "D", "text": "In the appendix"}], "answerLetter": "B", "answerText": "At the end of the report", "explanation": "الإجابة الصح هي \"At the end of the report\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 86, "origId": 34, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q34", "category": "Results, Conclusion & Endings", "question": "Appendices are used to place:", "options": [{"letter": "A", "text": "Main chapters"}, {"letter": "B", "text": "Large materials that don't fit in the report's body"}, {"letter": "C", "text": "The introduction"}, {"letter": "D", "text": "The conclusion"}], "answerLetter": "B", "answerText": "Large materials that don't fit in the report's body", "explanation": "الإجابة الصح هي \"Large materials that don't fit in the report's body\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 87, "origId": 35, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q35", "category": "General Technical Reports", "question": "Which type of ending provides a general future outlook?", "options": [{"letter": "A", "text": "Summary"}, {"letter": "B", "text": "True Conclusions"}, {"letter": "C", "text": "Afterword"}, {"letter": "D", "text": "References list"}], "answerLetter": "C", "answerText": "Afterword", "explanation": "الخاتمة تلخّص وتصدر حكمًا نهائيًا، والـ future work يقترح الخطوة التالية، والـ limitations توضّح حدود الدراسة بصدق."}, {"id": 88, "origId": 36, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q36", "category": "Formatting & Visual Elements", "question": "Page numbering in traditional report design:", "options": [{"letter": "A", "text": "Starts from the first page with Arabic numerals"}, {"letter": "B", "text": "Uses lowercase Roman numerals for preliminary sections and Arabic numerals for the body"}, {"letter": "C", "text": "Uses no numbers"}, {"letter": "D", "text": "Uses alphabetical letters"}], "answerLetter": "B", "answerText": "Uses lowercase Roman numerals for preliminary sections and Arabic numerals for the body", "explanation": "دي أسئلة تنظيم التقرير وشكله الرسمي؛ ركّز على أماكن العناصر ووظيفتها، لأن الامتحان بيحب الحاجات دي جدًا."}, {"id": 89, "origId": 37, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q37", "category": "Referencing & Academic Integrity", "question": "Citations serve a fundamental function of:", "options": [{"letter": "A", "text": "Increasing page count"}, {"letter": "B", "text": "Showing general culture"}, {"letter": "C", "text": "Avoiding footnotes"}, {"letter": "D", "text": "Linking the writer's work to existing knowledge"}], "answerLetter": "D", "answerText": "Linking the writer's work to existing knowledge", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 90, "origId": 38, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q38", "category": "Referencing & Academic Integrity", "question": "APA style for in-text citations uses the format:", "options": [{"letter": "A", "text": "(Author, page number)"}, {"letter": "B", "text": "(Footnote number)"}, {"letter": "C", "text": "(Author, year)"}, {"letter": "D", "text": "(Article title)"}], "answerLetter": "C", "answerText": "(Author, year)", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 91, "origId": 39, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q39", "category": "Referencing & Academic Integrity", "question": "MLA style for in-text citations uses the format:", "options": [{"letter": "A", "text": "(Author, year)"}, {"letter": "B", "text": "[Reference number]"}, {"letter": "C", "text": "(Author, page number)"}, {"letter": "D", "text": "(Book title)"}], "answerLetter": "C", "answerText": "(Author, page number)", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 92, "origId": 40, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q40", "category": "Referencing & Academic Integrity", "question": "Which of these tools helps manage citations?", "options": [{"letter": "A", "text": "Only Microsoft Word"}, {"letter": "B", "text": "Zotero and EndNote"}, {"letter": "C", "text": "Adobe Photoshop"}, {"letter": "D", "text": "Google Chrome"}], "answerLetter": "B", "answerText": "Zotero and EndNote", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 93, "origId": 41, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q41", "category": "Referencing & Academic Integrity", "question": "\"Patch-writing\" is a form of plagiarism that means:", "options": [{"letter": "A", "text": "Writing completely original work"}, {"letter": "B", "text": "Changing a few words while retaining the original structure"}, {"letter": "C", "text": "Using quotation marks"}, {"letter": "D", "text": "Citing all sources"}], "answerLetter": "B", "answerText": "Changing a few words while retaining the original structure", "explanation": "الانتحال معناه تنسب شغل غيرك لنفسك. وPatch-writing يعني تغيّر شوية كلمات لكن تسيب نفس البناء، وده برضه غلط."}, {"id": 94, "origId": 42, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q42", "category": "General Technical Reports", "question": "The common documentation system used in engineering is:", "options": [{"letter": "A", "text": "MLA"}, {"letter": "B", "text": "APA"}, {"letter": "C", "text": "IEEE"}, {"letter": "D", "text": "Chicago"}], "answerLetter": "C", "answerText": "IEEE", "explanation": "الإجابة الصح هي \"IEEE\" لأنها الأنسب حسب قواعد كتابة التقارير الفنية وتقسيم أجزائها ووظيفة كل جزء."}, {"id": 95, "origId": 43, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q43", "category": "Formatting & Visual Elements", "question": "Which of the following is a visual element?", "options": [{"letter": "A", "text": "Diagrams"}, {"letter": "B", "text": "Graphs"}, {"letter": "C", "text": "Tables"}, {"letter": "D", "text": "All of the above"}], "answerLetter": "D", "answerText": "All of the above", "explanation": "الـ figures والـ tables أدوات توضيح وفهم سريع. قاعدة تحفظها: Figure caption غالبًا تحت، Table caption غالبًا فوق، وكل شكل لازم يُشار له داخل النص."}, {"id": 96, "origId": 44, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q44", "category": "Referencing & Academic Integrity", "question": "The fundamental rule of citation is:", "options": [{"letter": "A", "text": "Every in-text citation must have a corresponding full citation at the end of the paper"}, {"letter": "B", "text": "Citations are optional"}, {"letter": "C", "text": "Citations can be used without mentioning sources"}, {"letter": "D", "text": "It is enough to mention sources in the introduction"}], "answerLetter": "A", "answerText": "Every in-text citation must have a corresponding full citation at the end of the paper", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}, {"id": 97, "origId": 45, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q45", "category": "Writing Style & Audience", "question": "One stage of technical writing is:", "options": [{"letter": "A", "text": "Preparation"}, {"letter": "B", "text": "Research"}, {"letter": "C", "text": "Drafting"}, {"letter": "D", "text": "All of the above"}], "answerLetter": "D", "answerText": "All of the above", "explanation": "الكتابة الفنية القوية دايمًا واضحة ومختصرة وموضوعية وموجهة للقارئ المناسب، لذلك بنبعد عن اللغة العاطفية واللف والدوران."}, {"id": 98, "origId": 46, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • Q46", "category": "Referencing & Academic Integrity", "question": "Very old references may be:", "options": [{"letter": "A", "text": "Unsuitable for modern technologies"}, {"letter": "B", "text": "Always best"}, {"letter": "C", "text": "Mandatory"}, {"letter": "D", "text": "Not useful"}], "answerLetter": "A", "answerText": "Unsuitable for modern technologies", "explanation": "الاستشهاد المرجعي مش تزيين؛ هو الدليل على مصدر المعلومة. احفظها كده: IEEE = أرقام داخل مربعات، APA = Author, year، MLA = Author + page."}], "tf": [{"id": 1, "origId": 1, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 1", "category": "Writing Style & Audience", "question": "Technical accuracy means clarity in scientific data and facts.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح لأن الدقة العلمية واللغوية جزء أساسي من جودة التقرير."}, {"id": 2, "origId": 2, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 2", "category": "General Technical Reports", "question": "Peer-reviewed journals provide the highest level of authority but are slow in publication.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح لأن المجلات المحكمة أعلى موثوقية فعلًا، لكن نشرها غالبًا أبطأ."}, {"id": 3, "origId": 3, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 3", "category": "General Technical Reports", "question": "It is better to use long, complex sentences exceeding 30 words.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط لأن الكتابة الفنية تفضّل الجمل الواضحة غير المرهقة للقارئ."}, {"id": 4, "origId": 4, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 4", "category": "General Technical Reports", "question": "According to Goldman's study, readers trust wiki-style content more than conventional content.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط لأن الدراسة المذكورة تربط الثقة الأكبر بالمحتوى ذي المؤلف الواضح وليس الويكي."}, {"id": 5, "origId": 5, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 5", "category": "Writing Style & Audience", "question": "Audience analysis is a secondary factor in technical writing.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 6, "origId": 6, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 6", "category": "Formatting & Visual Elements", "question": "It is better to use the automatic table of contents feature in word processing software.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 7, "origId": 7, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 7", "category": "Formatting & Visual Elements", "question": "The wording in the table of contents must exactly match the headings in the report's body.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح لأن العناوين لازم تكون صريحة وواضحة، والإشارة الضميرية للعناوين تقلل الوضوح."}, {"id": 8, "origId": 8, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 8", "category": "Introduction", "question": "The introduction is the last thing the reader reads in the report.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 9, "origId": 9, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 9", "category": "General Technical Reports", "question": "Pronouns (like \"this\") can be used to refer back to headings.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط لأن العناوين لازم تكون صريحة وواضحة، والإشارة الضميرية للعناوين تقلل الوضوح."}, {"id": 10, "origId": 10, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 10", "category": "Abstract & Summary", "question": "The final section can combine elements of summary, conclusions, and future outlook.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 11, "origId": 11, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 11", "category": "Referencing & Academic Integrity", "question": "Citations are only necessary for direct quotes, not for paraphrasing.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط لأن حتى إعادة الصياغة تحتاج استشهادًا بالمصدر، وليس الاقتباس الحرفي فقط."}, {"id": 12, "origId": 12, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 12", "category": "Referencing & Academic Integrity", "question": "All citation styles (APA, MLA, IEEE) are identical in format.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط لأن APA وMLA وIEEE كل واحد له شكل مختلف داخل النص وفي قائمة المراجع."}, {"id": 13, "origId": 13, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 13", "category": "Referencing & Academic Integrity", "question": "Consistency in using a single citation style throughout the document is an absolute professional mandate.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 14, "origId": 14, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 14", "category": "General Technical Reports", "question": "When working with co-authors, jointly produced material can be reused without permission.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "F", "answerText": "False", "explanation": "العبارة غلط بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 15, "origId": 15, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 15", "category": "Results, Conclusion & Endings", "question": "A technical report explains research processes or development results.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح بحسب قواعد الكتابة الفنية ومبادئ الوضوح والموضوعية والتنظيم."}, {"id": 16, "origId": 16, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 16", "category": "Formatting & Visual Elements", "question": "Graphics and tables help clarify information.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح لأن العناصر البصرية بتسهّل الفهم وتعرض البيانات بكفاءة."}, {"id": 17, "origId": 17, "source": "تقارير فنية.pdf", "sourceLabel": "تقارير فنية.pdf • T/F 17", "category": "General Technical Reports", "question": "Revision helps improve the quality of the report.", "options": [{"letter": "T", "text": "True"}, {"letter": "F", "text": "False"}], "answerLetter": "T", "answerText": "True", "explanation": "العبارة صح لأن المراجعة بتحسن اللغة والتنظيم والدقة قبل التسليم."}], "essays": [{"title": "1) الـ 5 Cs of Technical Writing", "question": "اشرح باختصار الـ 5 Cs في الكتابة الفنية.", "memorize": "احفظهم كخماسي ثابت: Correctness, Clarity, Completeness, Consistency, Changeability.", "englishAnswer": "The 5 Cs are: Correctness, which means technical and linguistic accuracy; Clarity, which means each sentence should allow only one interpretation; Completeness, which means including all relevant information; Consistency, which means avoiding internal conflicts and conflicts with external sources; and Changeability, which means the document should be easy to update and well structured.", "arabicExplanation": "هنا المطلوب منك ما يكونش مجرد تعداد أسماء. الأفضل تكتب كل عنصر ومعناه باختصار: الصحة = دقة، الوضوح = معنى واحد، الاكتمال = مفيش معلومات ناقصة، الاتساق = لا تعارض، وقابلية التغيير = سهل يتحدث ويتنظم."}, {"title": "2) اختيار المراجع المناسبة", "question": "إزاي تختار المراجع الصح للتقرير الفني؟", "memorize": "فكّر في 4 كلمات: تنوع - حداثة - سلطة علمية - تجنب المصادر الضعيفة.", "englishAnswer": "The right references should show balance and diversity between books, journal articles, and conference papers. They should be recent, especially in fast-changing fields, written by recognized experts, and you should avoid over-reliance on unreliable web sources.", "arabicExplanation": "السؤال ده إجابته مبنية على معايير تقييم المصدر. امشِ بنظام: هل المصدر متنوع؟ حديث؟ مؤلفه موثوق؟ وهل هو أنسب من موقع عشوائي؟ لو كتبت الأربع نقاط دول بشكل مرتب هتكون إجابتك قوية."}, {"title": "3) Descriptive Abstract vs Executive Summary", "question": "ما الفرق بين الملخص الوصفي والملخص التنفيذي؟", "memorize": "Descriptive = تعريف بالمحتوى فقط، Executive = أهم الحقائق والنتائج لاتخاذ القرار.", "englishAnswer": "A descriptive abstract provides only an overview of the purpose and contents of the report, and it is often placed on the title page. An executive summary presents the key facts and conclusions, is usually about one-tenth to one-twentieth of the report length, and allows the reader to grasp the important information even without reading the full report.", "arabicExplanation": "لو السؤال جه مقارنة، لازم تذكر الفرق في الوظيفة والطول. الـ descriptive يعرّف فقط، أما الـ executive summary فيلخّص أهم المعلومات والاستنتاجات بشكل أوسع نسبيًا ومفيد لصنّاع القرار."}, {"title": "4) وظائف المقدمة", "question": "ما الوظائف الأساسية لمقدمة التقرير الفني؟", "memorize": "ابدأ بـ: خلفية - مهمة وأهداف - متطلبات - منظور عام - جذب القارئ.", "englishAnswer": "The introduction defines the starting point and initial situation of the project, gives a formal description of the task and objectives, describes the basic technical prerequisites, may provide a multidisciplinary perspective such as economic, environmental, or legal aspects, and motivates the reader to continue reading the report.", "arabicExplanation": "المقدمة مش مكان نتائج نهائية. هي تهيئة للقارئ: من أين بدأ المشروع، ما الهدف، ما المتطلبات، وما السياق العام. في الامتحان الأفضل تكتبها كنقاط مرتبة أو جملة جامعة ثم نقاط."}, {"title": "5) أنواع النهايات في التقارير الفنية", "question": "اشرح ثلاثة أنواع من الأقسام النهائية في التقرير الفني.", "memorize": "Summaries = إعادة عرض، True Conclusions = حكم نهائي، Afterwords = نظرة مستقبلية عامة.", "englishAnswer": "Technical reports may end with different types of final sections. Summaries restate the most important ideas and results. True conclusions present final judgments based on the analysis, such as deciding which model or solution is best. Afterwords discuss a related topic and provide a general future outlook without detailed analysis.", "arabicExplanation": "السؤال ده بيحب المقارنة. اذكر كل نوع ووظيفته: summary يعيد أهم ما سبق، conclusion يحكم، afterword يفتح الباب لنظرة مستقبلية عامة. المهم ما تخلطش بينهم."}, {"title": "6) Academic Plagiarism", "question": "عرّف الانتحال الأكاديمي واذكر 3 صور له.", "memorize": "القاعدة الذهبية: أي نقل أو إعادة استخدام بلا توثيق = مشكلة.", "englishAnswer": "Academic plagiarism is presenting someone else’s work as your own. Its forms include copying and pasting text without attribution, patch-writing by changing only a few words while keeping the original structure, and self-plagiarism by reusing your own previously published work without proper citation.", "arabicExplanation": "في التعريف ركز على فكرة النسبة لنفسك دون حق. وبعدها اذكر الصور الثلاث المشهورة: copy-paste، patch-writing، self-plagiarism. دي صياغة نموذجية ومباشرة جدًا."}, {"title": "7) In-text Citation vs Full Reference", "question": "ما الفرق بين الاستشهاد داخل النص والمرجع الكامل؟", "memorize": "In-text = إشارة سريعة داخل الكلام، Full reference = البيانات الكاملة في آخر التقرير.", "englishAnswer": "An in-text citation is a brief reference inside the document, such as the author’s name and year, which points the reader to the source being used. A full reference is the complete bibliographic entry at the end of the document, including details such as the author, title, publisher, date, and pages so the reader can identify and locate the source.", "arabicExplanation": "الفرق الأساسي في مستوى التفاصيل والمكان. داخل النص مجرد دلالة سريعة على المصدر، أما المرجع الكامل ففي آخر التقرير ويحتوي البيانات الكاملة للعثور على المصدر."}, {"title": "8) Technical Writing vs Business Writing", "question": "ما الفرق بين الكتابة الفنية والكتابة التجارية؟", "memorize": "Technical = دقة علمية وتوجيه، Business = دعم الإدارة والقرارات.", "englishAnswer": "Technical writing focuses on the industrial community and physical sciences. It is used in technical reports, standard operating procedures, and engineering specifications, and its main goal is to inform and guide with high precision. Business writing focuses on commerce and administration, is used in memoranda, formal letters, and administrative reports, and its goal is to support business operations and decision-making. Both share clarity, conciseness, and objectivity.", "arabicExplanation": "قارن من 3 نواحي: المجال، أمثلة الاستخدام، والهدف. وبعد المقارنة اختم بالقاسم المشترك: الوضوح والإيجاز والموضوعية. ده يدي الإجابة شكل قوي ومنظم."}, {"title": "9) أهمية الـ Referencing", "question": "اشرح أهمية التوثيق المرجعي في الكتابة الفنية.", "memorize": "المراجع = مصداقية + حماية من الانتحال + طريق يرجع له القارئ.", "englishAnswer": "Referencing gives the work credibility, protects it from plagiarism, links the writer’s ideas to existing knowledge, and allows readers to trace the original sources and verify the information.", "arabicExplanation": "لو السؤال عن الأهمية، اذكر الوظائف لا التعريف: المصداقية، الحماية من الانتحال، ربط كلامك بما قبلك، وتمكين القارئ من الرجوع للمصدر الأصلي. الأربع نقاط دول كفاية جدًا."}], "guide": [{"title": "خريطة أجزاء التقرير", "hook": "احفظ الوظيفة قبل الاسم.", "body": "Abstract = صورة سريعة، Introduction = تهيئة وخلفية، Methodology = كيف اشتغلنا، Results = ماذا وجدنا، Discussion = لماذا حدث ذلك، Conclusion = ماذا نستنتج، Future Work = ماذا بعد. أي MCQ يسألك عن وظيفة الجزء، اربط الاسم بالسؤال الذي يجيب عنه.", "trap": "الفخ الشائع: الخلط بين Results وDiscussion أو بين Abstract وExecutive Summary.", "example": "لو السؤال قال: Which section explains how the research was conducted? فكر فورًا في How = Methodology."}, {"title": "Abstract vs Executive Summary", "hook": "الاتنين مختصر، لكن مش نفس الدور.", "body": "الـ abstract مختصر جدًا ويعرض الهدف والمحتوى أو الطريقة والنتيجة بسرعة. الـ executive summary أطول نسبيًا ويعرض أهم الحقائق والاستنتاجات بحيث القارئ قد يكتفي به لاتخاذ فكرة أو قرار.", "trap": "أي اختيار فيه تفاصيل تشغيلية أو طول أكبر وحقائق واستنتاجات أساسية يميل لـ Executive Summary، وليس Descriptive Abstract.", "example": "1/10 إلى 1/20 من طول التقرير = علامة مشهورة للـ Executive Summary."}, {"title": "Results vs Discussion vs Conclusion", "hook": "نتيجة، ثم تفسير، ثم حكم.", "body": "Results تعرض البيانات والنتائج نفسها. Discussion تفسر معنى النتائج وتناقش الأسباب والدلالات. Conclusion تلخص وتحسم ما الذي نستنتجه في النهاية. الترتيب ده وحده كفيل يحل أسئلة كثيرة.", "trap": "لو الاختيار يتكلم عن explanation أو interpretation فهو Discussion غالبًا، ولو يتكلم عن final judgment فهو Conclusion.", "example": "Present findings = Results، Explain findings = Discussion، Summarize final findings = Conclusion."}, {"title": "Methodology أسئلة متكررة", "hook": "Methodology = How you did it.", "body": "أي سؤال عن خطوات التنفيذ، الأدوات، الإجراءات، أو تم إجراء البحث كيف؟ فالإجابة الأقرب غالبًا Methodology. كذلك المنهجية مرتبطة بإمكانية تكرار الدراسة أو إعادة تنفيذها.", "trap": "لو السؤال يتكلم عن allowing replication أو procedure فابتعد عن Introduction وResults.", "example": "Which section allows other researchers to replicate the study? = Methodology."}, {"title": "وظائف المقدمة", "hook": "المقدمة تجهّز القارئ، لا تقدّم النتيجة النهائية.", "body": "المقدمة تحدد نقطة البداية، تشرح الخلفية، توضح الهدف أو المهمة، وتذكر المتطلبات أو النطاق. أحيانًا تضيف منظورًا اقتصاديًا أو بيئيًا أو قانونيًا. لذلك أي اختيار فيه prepare the reader أو background أو objectives غالبًا صحيح.", "trap": "Detailed recommendations أو final results غالبًا ليست من وظائف المقدمة.", "example": "The primary function of a report's introduction = prepare the reader to read the main body."}, {"title": "Figure / Table / Caption Rule", "hook": "Figure تحت، Table فوق.", "body": "قاعدة محفوظة جدًا: caption الخاص بالشكل Figure يكون غالبًا أسفل الشكل، بينما caption الجدول Table يكون غالبًا أعلى الجدول. وكلاهما يجب الإشارة إليه داخل النص حتى لا يظهر كعنصر معزول.", "trap": "أي اختيار يقول إن الـ caption replace the text أو ignore references غالبًا غلط.", "example": "If a figure is adapted from another paper, write something like: Adapted from [reference number]."}, {"title": "Visual Elements", "hook": "الصور والجداول ليست زينة.", "body": "الرسوم البيانية، المخططات، والجداول تساعد على توضيح الأنظمة المعقدة وعرض البيانات الرقمية بسرعة. لذلك في أسئلة الـ MCQ، الاختيار الذي يربط visual elements بالclarity أو understanding غالبًا يكون صحيحًا.", "trap": "إذا كان الاختيار يقول إن figures أو tables غير مهمة أو يجب حذفها غالبًا يكون خاطئًا.", "example": "Tables are best for numerical data. Block diagrams improve understanding of complex systems."}, {"title": "3 كلمات تكسبك معظم أسئلة الأسلوب", "hook": "Clarity + Conciseness + Objectivity", "body": "لو احتارت في سؤال عن أسلوب الكتابة الفنية، ابحث عن الاختيار الذي يعكس الوضوح، الإيجاز، والموضوعية. الكتابة الفنية لا تميل للعاطفة أو المبالغة أو الحكي الشخصي.", "trap": "Informal language، emotional tone، personal stories، very amazing and cool = علامات اختيار خاطئ غالبًا.", "example": "Clear and objective أفضل من emotional أو personal في معظم الأسئلة."}, {"title": "جمل الأسلوب والصياغة", "hook": "خفف الذاتية وقلّل الزينة.", "body": "في technical writing يفضَّل الأسلوب الرسمي والعبارات المباشرة. كثير من البنوك تعتبر الصياغات الموضوعية أو المبنية للمجهول أنسب من الجمل الشخصية جدًا، خصوصًا لو الهدف عرض الإجراء لا إبراز الكاتب.", "trap": "أي جملة مليانة رأي شخصي أو صفات مبالغ فيها غالبًا اختيار ضعيف.", "example": "The system was designed أقوى فنيًا من We built a very amazing and cool system."}, {"title": "Audience Analysis", "hook": "اكتب حسب القارئ.", "body": "Adapting content يعني تفصيل المعلومات بما يناسب الجمهور المستهدف. غير المتخصص يحتاج تبسيطًا أكثر، أما الخبير فيحتاج دقة وكثافة معلومات أعلى. لذلك audience analysis عامل أساسي وليس ثانويًا.", "trap": "أي اختيار يقول write the same content for everyone أو audience analysis is secondary غالبًا خاطئ.", "example": "Least technical background = Nonspecialists."}, {"title": "Information Pruning", "hook": "ليس كل ما تعرفه يُكتب.", "body": "Information pruning يعني حذف التفاصيل التي لا يحتاجها القارئ. الهدف هنا الحفاظ على الإيجاز والتركيز، لا الإطالة. في أسئلة الاختيار، pruning يقابل omit or remove unnecessary data.", "trap": "Adding more details أو repeating information ليست pruning.", "example": "Information pruning = omitting data the reader does not need."}, {"title": "الاستشهاد وأنماطه", "hook": "احفظ شكل كل style.", "body": "IEEE داخل النص يعتمد الأرقام مثل [1]. APA يعتمد (Author, year). MLA يعتمد (Author, page number). أي سؤال عن citation style غالبًا يُحل من شكل الصياغة فقط.", "trap": "الأنماط ليست متطابقة. ولو السؤال عن engineering documentation فغالبًا IEEE.", "example": "IEEE = [5]، APA = (Smith, 2020)، MLA = (Smith 25)."}, {"title": "قاعدة التوثيق الأساسية", "hook": "أي citation داخل النص لازم يقابله مرجع كامل.", "body": "Fundamental rule of citation: كل استشهاد داخل النص يجب أن يكون له full reference في نهاية التقرير. كما أن التوثيق لا يقتصر على الاقتباس المباشر فقط، بل يشمل paraphrasing أيضًا.", "trap": "لو لقيت اختيار يقول citations are optional أو direct quotes only فغالبًا خطأ.", "example": "In-text citation points to the source during reading; full reference lets the reader locate it fully."}, {"title": "Forms of Plagiarism", "hook": "Plagiarism مش نوع واحد.", "body": "الانتحال يشمل تقديم عمل غيرك كأنه عملك، والنسخ دون نسبة، والـ patch-writing بتغيير كلمات قليلة مع نفس البنية، وأيضًا self-plagiarism بإعادة استخدام عملك السابق دون توثيق. الأسئلة تأتي أحيانًا بالتعريف وأحيانًا بالأمثلة.", "trap": "الطلاب أحيانًا يظنون أن paraphrasing بدون citation آمن، لكنه يظل مشكلة.", "example": "Changing a few words while retaining the original structure = Patch-writing."}, {"title": "اختيار المرجع الصحيح", "hook": "حديث + موثوق + مناسب.", "body": "المراجع الجيدة متوازنة بين كتب ومقالات وأوراق مؤتمرات، حديثة خاصة في المجالات المتغيرة، ومكتوبة بواسطة جهات أو مؤلفين موثوقين. لهذا تكون peer-reviewed journals عالية السلطة لكنها أبطأ في النشر.", "trap": "Very old references may be unsuitable for modern technologies. والمصادر المجهولة أو المدونات الشخصية أقل موثوقية غالبًا.", "example": "Conventionally authored content is perceived as more credible than wiki-style content in the cited comparison."}, {"title": "5 Cs للحفظ السريع", "hook": "خمسة مصطلحات ييجوا MCQ ومقالي.", "body": "Correctness = صحة المعلومات، Clarity = معنى واحد واضح، Completeness = كل المعلومات المهمة موجودة، Consistency = لا تعارض داخلي أو خارجي، Changeability = المستند سهل التحديث والتنظيم. حفظها بالترتيب مفيد جدًا.", "trap": "External consistency ليست مجرد توافق داخلي؛ هي اتفاق الوثيقة مع مصادر أو مواصفات خارجية.", "example": "Completeness is relative to the reader's needs, not absolute and fixed."}, {"title": "Cover Letter / TOC / Pagination", "hook": "تفاصيل شكلية لكنها محبوبة في الـ MCQ.", "body": "Cover letter هي رسالة تشرح سياق إعداد التقرير. وإذا زاد عدد الأشكال أو الجداول عن اثنين، فقد تحتاج قائمة منفصلة لها. وفي التصميم التقليدي قد تستخدم التمهيدات أرقامًا رومانية صغيرة والجسم الرئيسي أرقامًا عربية.", "trap": "لا تخلط بين cover letter وtitle page أو executive summary.", "example": "Lowercase Roman numerals for preliminary sections, Arabic numerals for the body."}, {"title": "Appendix / Summary / Afterword", "hook": "كل نهاية لها وظيفة مختلفة.", "body": "Appendices تُستخدم للمواد الكبيرة أو التفصيلية التي لا تناسب جسم التقرير. Summary غالبًا يأتي في نهاية التقرير لإعادة أهم النقاط. Afterword يقدّم نظرة مستقبلية عامة مرتبطة بالموضوع.", "trap": "المواد الكبيرة التي لا تناسب الجسم الرئيسي تذهب للـ appendix، لا للمقدمة أو الخاتمة.", "example": "Large materials that do not fit in the report body = Appendices."}, {"title": "Grammar & Revision", "hook": "المراجعة جزء من الجودة، ليست خطوة شكلية.", "body": "قبل التسليم، مراجعة اللغة والقواعد والتوثيق تحسن جودة التقرير بشكل واضح. لذلك أي سؤال عن what should students check before submitting؟ فكر في grammar + citations + consistency.", "trap": "Ignore references أو remove figures أو delete conclusion اختيارات فخية متكررة.", "example": "Revision helps improve quality, and checking grammar and citations improves credibility."}, {"title": "كيف تلتقط الإجابة الصح بسرعة؟", "hook": "ابحث عن الكلمة الوظيفية.", "body": "في أسئلة Technical Reports، الكلمة المفتاحية هي المفتاح: summarize، explain how، present results، credibility، plagiarism، caption، reference. لو التقطت وظيفة الكلمة، غالبًا ستعرف القسم أو المفهوم الصحيح فورًا.", "trap": "لا تتعلق بأطول اختيار أو بأكثر اختيار يبدو أكاديميًا. اربط الاختيار بوظيفة الجزء أو المصطلح.", "example": "credibility ↔ proper references، numerical data ↔ tables، formal and objective ↔ technical writing."}], "stats": {"mcq_count": 98, "tf_count": 17, "essay_count": 9}};
+let feedbackMode = "final";
+let activeMode = "mcq";
+let ACTIVE_QUESTIONS = DATA.mcq;
+
+function qs(mode) {
+  return mode === "tf" ? DATA.tf : DATA.mcq;
+}
+
+function hideAllScreens() {
+  ["homeScreen","quizScreen","resultsScreen","essayScreen","guideScreen"].forEach(id => {
+    document.getElementById(id).classList.add("hidden");
+  });
+}
+
+function startMode(mode) {
+  activeMode = mode;
+  ACTIVE_QUESTIONS = qs(mode);
+  hideAllScreens();
+  document.getElementById("quizScreen").classList.remove("hidden");
+  document.getElementById("resultsScreen").classList.add("hidden");
+  document.getElementById("mistakesWrap").classList.add("hidden");
+  document.getElementById("answerKeySection").classList.add("hidden");
+
+  const isTF = mode === "tf";
+  document.getElementById("modeTitle").textContent = isTF ? "قسم True / False" : "البنك الموحد للـ MCQ";
+  document.getElementById("modeSubtitle").textContent = isTF
+    ? "صح أو غلط مع شرح عربي بعد التصحيح."
+    : "اختيار من متعدد من المصدرين مع شرح عربي مختصر لكل سؤال.";
+  document.getElementById("totalCount").textContent = ACTIVE_QUESTIONS.length;
+
+  renderQuestions();
+  renderAnswerKey();
+  updateStats();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function openStudy(id) {
+  hideAllScreens();
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function goHome() {
+  hideAllScreens();
+  document.getElementById("homeScreen").classList.remove("hidden");
+  document.getElementById("resultsScreen").classList.add("hidden");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderQuestions() {
+  const wrap = document.getElementById("questionList");
+  wrap.innerHTML = ACTIVE_QUESTIONS.map((q, idx) => `
+    <div class="question">
+      <span class="q-number">#${q.id}</span>
+      <div class="meta-row">
+        <span class="source-tag">${q.sourceLabel}</span>
+        <span class="topic-tag">${q.category}</span>
+      </div>
+      <div class="question-body">
+        <h4>${escapeHtml(q.question)}</h4>
+      </div>
+      <div class="options">
+        ${q.options.map(opt => `
+          <label class="option question-body" data-q="${idx}" data-opt="${opt.letter}">
+            <input type="radio" name="q_${idx}" value="${opt.letter}" onchange="handleSelectionChange(${idx})" />
+            <span><strong>${opt.letter}.</strong> ${escapeHtml(opt.text)}</span>
+          </label>
+        `).join("")}
+      </div>
+      <div id="note_${idx}" class="note hidden"></div>
+    </div>
+  `).join("");
+}
+
+function renderAnswerKey() {
+  const grid = document.getElementById("answerGrid");
+  grid.innerHTML = ACTIVE_QUESTIONS.map(q => `
+    <div class="answer-row">
+      <strong>#${q.id}</strong>
+      <span class="question-body">${q.answerLetter} - ${escapeHtml(q.answerText)}</span>
+    </div>
+  `).join("");
+}
+
+function renderEssayCards() {
+  const wrap = document.getElementById("essayCards");
+  wrap.innerHTML = DATA.essays.map(card => `
+    <div class="study-card">
+      <h3>${card.title}</h3>
+      <span class="tag-mini">Essay Practice</span>
+      <p><strong>السؤال:</strong> ${card.question}</p>
+      <div class="memorize"><strong>للحفظ السريع:</strong> ${card.memorize}</div>
+      <div class="answer-en"><strong>Model Answer (EN):</strong><br>${card.englishAnswer}</div>
+      <div class="answer-ar"><strong>الشرح بالعربي:</strong><br>${card.arabicExplanation}</div>
+    </div>
+  `).join("");
+}
+
+function renderGuideCards() {
+  const wrap = document.getElementById("guideCards");
+  wrap.innerHTML = DATA.guide.map(card => `
+    <div class="study-card">
+      <h3>${card.title}</h3>
+      <div class="memorize"><strong>Hook:</strong> ${card.hook}</div>
+      <div class="guide-box"><strong>الفكرة:</strong><br>${card.body}</div>
+      <div class="guide-box"><strong>الفخ الشائع:</strong><br>${card.trap}</div>
+      <div class="guide-box"><strong>مثال سريع:</strong><br>${card.example}</div>
+    </div>
+  `).join("");
+}
+
+function setFeedbackMode(mode) {
+  feedbackMode = mode;
+}
+
+function getPicked(idx) {
+  const picked = document.querySelector(`input[name="q_${idx}"]:checked`);
+  return picked ? picked.value : null;
+}
+
+function clearQuestionFeedback(idx) {
+  const labels = [...document.querySelectorAll(`label[data-q="${idx}"]`)];
+  const note = document.getElementById(`note_${idx}`);
+  labels.forEach(l => l.classList.remove("correct", "wrong", "missed"));
+  note.classList.add("hidden");
+  note.innerHTML = "";
+}
+
+function applyFeedback(idx) {
+  const q = ACTIVE_QUESTIONS[idx];
+  const picked = getPicked(idx);
+  const labels = [...document.querySelectorAll(`label[data-q="${idx}"]`)];
+  const note = document.getElementById(`note_${idx}`);
+
+  labels.forEach(l => {
+    l.classList.remove("correct", "wrong", "missed");
+    const opt = l.getAttribute("data-opt");
+    if (opt === q.answerLetter) l.classList.add("correct");
+    if (picked && opt === picked && picked !== q.answerLetter) l.classList.add("wrong");
+    if (!picked && opt === q.answerLetter) l.classList.add("missed");
+  });
+
+  let resultLine = "";
+  if (!picked) {
+    resultLine = `<strong>السؤال متساب.</strong> الإجابة الصحيحة هي <span class="en">${q.answerLetter}. ${escapeHtml(q.answerText)}</span>`;
+  } else if (picked === q.answerLetter) {
+    resultLine = `<strong>إجابة صحيحة.</strong> الاختيار الصح هو <span class="en">${q.answerLetter}. ${escapeHtml(q.answerText)}</span>`;
+  } else {
+    resultLine = `<strong>إجابة غير صحيحة.</strong> اخترت <span class="en">${picked}</span> والصح هو <span class="en">${q.answerLetter}. ${escapeHtml(q.answerText)}</span>`;
+  }
+
+  note.innerHTML = `
+    <div>${resultLine}</div>
+    <hr class="soft">
+    <div><strong>شرح سريع بالعربي:</strong> ${q.explanation}</div>
+  `;
+  note.classList.remove("hidden");
+}
+
+function handleSelectionChange(idx) {
+  updateStats();
+  if (feedbackMode === "instant") {
+    applyFeedback(idx);
+  } else {
+    clearQuestionFeedback(idx);
+  }
+}
+
+function updateStats() {
+  const answered = ACTIVE_QUESTIONS.filter((_, idx) => getPicked(idx)).length;
+  document.getElementById("answeredCount").textContent = answered;
+  document.getElementById("remainingCount").textContent = ACTIVE_QUESTIONS.length - answered;
+  document.getElementById("progressFill").style.width = `${(answered / ACTIVE_QUESTIONS.length) * 100}%`;
+}
+
+function submitQuiz() {
+  let correct = 0, wrong = 0, blank = 0;
+  ACTIVE_QUESTIONS.forEach((q, idx) => {
+    const picked = getPicked(idx);
+    applyFeedback(idx);
+    if (!picked) blank++;
+    else if (picked === q.answerLetter) correct++;
+    else wrong++;
+  });
+
+  const percent = Math.round((correct / ACTIVE_QUESTIONS.length) * 100);
+  document.getElementById("scorePercent").textContent = percent + "%";
+  document.getElementById("scoreCorrect").textContent = correct;
+  document.getElementById("scoreWrong").textContent = wrong;
+  document.getElementById("scoreBlank").textContent = blank;
+  document.getElementById("resultsScreen").classList.remove("hidden");
+  document.getElementById("resultsScreen").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function reviewAll() {
+  ACTIVE_QUESTIONS.forEach((_, idx) => applyFeedback(idx));
+  document.getElementById("quizScreen").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function reviewMistakes() {
+  const wrap = document.getElementById("mistakesWrap");
+  const list = document.getElementById("mistakeList");
+  const items = ACTIVE_QUESTIONS.map((q, idx) => {
+    const picked = getPicked(idx);
+    if (picked && picked === q.answerLetter) return null;
+    return `
+      <div class="mistake-item" style="margin-top:14px;">
+        <div class="meta-row">
+          <span class="source-tag">#${q.id}</span>
+          <span class="source-tag">${q.sourceLabel}</span>
+          <span class="topic-tag">${q.category}</span>
+        </div>
+        <div class="question-body"><h4 style="margin-top:0;">${escapeHtml(q.question)}</h4></div>
+        <p style="margin:0;"><strong>اختيارك:</strong> <span class="question-body">${picked ? escapeHtml(picked) : "—"}</span></p>
+        <p style="margin:8px 0 0;"><strong>الإجابة الصح:</strong> <span class="question-body">${q.answerLetter}. ${escapeHtml(q.answerText)}</span></p>
+        <div class="note" style="margin-top:12px;"><strong>الشرح:</strong> ${q.explanation}</div>
+      </div>
+    `;
+  }).filter(Boolean);
+
+  list.innerHTML = items.length ? items.join("") : `<div class="note">ممتاز، مافيش غلطات في الوضع الحالي.</div>`;
+  wrap.classList.remove("hidden");
+  wrap.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function toggleAnswerKey() {
+  const section = document.getElementById("answerKeySection");
+  section.classList.toggle("hidden");
+  if (!section.classList.contains("hidden")) {
+    section.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+}
+
+function resetQuiz() {
+  document.querySelectorAll('#quizScreen input[type="radio"]').forEach(el => el.checked = false);
+  ACTIVE_QUESTIONS.forEach((_, idx) => clearQuestionFeedback(idx));
+  document.getElementById("resultsScreen").classList.add("hidden");
+  document.getElementById("mistakesWrap").classList.add("hidden");
+  updateStats();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+renderEssayCards();
+renderGuideCards();
+goHome();
+</script>
+</body>
+</html>
