@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستودع الهندسي الشامل والكامل لتقارير الكتابة الفنية (184 سؤالاً)</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #2563eb;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --hint-bg: #fef3c7;
+            --hint-text: #78350f;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+        .tab-btn {
+            padding: 12px 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .info-bar {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border-right: 5px solid var(--primary-light);
+        }
+        .question-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0f172a;
+            direction: ltr;
+            text-align: left;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .option-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            direction: ltr;
+            text-align: left;
+            font-size: 1rem;
+        }
+        .option-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-light);
+        }
+        .option-item.correct {
+            background-color: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46 !important;
+            font-weight: bold;
+        }
+        .option-item.wrong {
+            background-color: #fee2e2 !important;
+            border-color: var(--danger) !important;
+            color: #991b1b !important;
+        }
+        .disabled {
+            pointer-events: none;
+        }
+        .feedback-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: var(--hint-bg);
+            color: var(--hint-text);
+            border-right: 5px solid #d97706;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background: #1d4ed8;
+        }
+        #result-box {
+            display: none;
+            background: #ecfeff;
+            color: #083344;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            font-weight: bold;
+            border: 2px solid #06b6d4;
+        }
+        .essay-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .essay-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .essay-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+            direction: ltr;
+            text-align: left;
+        }
+        .mnemonic-container {
+            background: #f0fdf4;
+            border: 1px dashed #22c55e;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: #166534;
+        }
+        .mnemonic-title {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        .essay-answer-block {
+            direction: ltr;
+            text-align: left;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+        }
+        .essay-point {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .reveal-btn {
+            background: #cbd5e1;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-right: 10px;
+            color: #1e293b;
+            font-weight: bold;
+        }
+        .reveal-btn:hover {
+            background: #94a3b8;
+        }
+        .hidden-text {
+            visibility: hidden;
+            background: #e2e8f0;
+            color: #e2e8f0;
+            border-radius: 4px;
+            display: inline;
+        }
+        .hidden-text.revealed {
+            visibility: visible;
+            background: transparent;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>المستودع الكامل والنهائي لتقارير الكتابة الفنية (184 سؤالاً)</h1>
+    <p class="subtitle"> اسأل الله ان ينفعكم </p>
+    
+    <div class="tabs">
+        <div class="tab-btn active" onclick="switchTab('quiz')">الأسئلة الاختيارية والصواب والخطأ الشاملة</div>
+        <div class="tab-btn" onclick="switchTab('essay')">الأسئلة المقالية الرسمية للبنك</div>
+        <div id="reveal-all-btn" class="tab-btn" onclick="revealAllAnswers()" style="background-color: #e67e22; color: white; margin-right: auto; font-weight: bold;">
+        عرض جميع الإجابات والمفاتيح </div>
+    </div>
+
+    <div id="quiz-tab" class="tab-content active">
+        <div class="info-bar">إجمالي الأسئلة المدمجة بالمنصة: <span id="total-q-count">0</span> سؤالاً</div>
+        <div id="quiz-container"></div>
+        <button class="btn-submit" onclick="calculateResult()">إنهاء المراجعة الشاملة واظهار مجموع الدرجات</button>
+        <div id="result-box"></div>
+    </div>
+
+    <div id="essay-tab" class="tab-content">
+        <div class="info-bar">💡 تفكيك الأفكار المقالية وفقاً للإجابة الرسمية للبنك بنظام الاستدعاء النشط والمفاتيح المزدوجة</div>
+        <div class="essay-section" id="essay-container"></div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        if(tabName === 'quiz') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('quiz-tab').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('essay-tab').classList.add('active');
+        }
+    }
+
+ // المصفوفة الشاملة والمهندسة بالحرف الواحد من البنك الخاص بك (192 سؤالاً)
+const questions = [
+    // ==================== المرحلة الأولى: الاختيار من متعدد ====================
+    { 
+        q: "1. What is the primary goal of a Technical Report?", 
+        options: ["A) To show the writer's linguistic skills", "B) To bring absolute clarity to the reader", "C) To lengthen the content as much as possible", "D) To express personal opinion"], 
+        ans: 1,
+        reminder: "الهدف الأسمى = الوضوح المطلق (Absolute Clarity) للقارئ وليس استعراض المهارات."
+    },
+    { 
+        q: "2. Technical writing differs from business writing in:", 
+        options: ["A) Using clear language", "B) Subject matter and domain", "C) Objectivity", "D) Conciseness"], 
+        ans: 1,
+        reminder: "الفرق الجوهري = المجال والموضوع (Subject matter & domain)؛ فالتقني يركز على الهندسة والعلوم."
+    },
+    { 
+        q: "3. Who is classified as a \"Subject Matter Expert\" in technical writing?", 
+        options: ["A) Only full-time writers", "B) Engineers and scientists who write as part of their daily work", "C) Only students", "D) Publishers"], 
+        ans: 1,
+        reminder: "خبير المادة (SME) = المهندسون والعلماء الذين يكتبون كجزء من عملهم اليومي."
+    },
+    { 
+        q: "4. Classification by orientation includes:", 
+        options: ["A) Pedagogical, theoretical, and professional orientation", "B) Religious and political orientation", "C) Literary and poetic orientation", "D) Only commercial orientation"], 
+        ans: 0,
+        reminder: "التوجيهات الثلاثة = تعليمي (Pedagogical)، نظري (Theoretical)، مهني (Professional)."
+    },
+    { 
+        q: "5. Self-plagiarism means:", 
+        options: ["A) Copying work from the internet", "B) Reusing your own previously published work without citation", "C) Plagiarizing from multiple sources", "D) Not mentioning the author's name"], 
+        ans: 1,
+        reminder: "الانتحال الذاتي = إعادة استخدام عملك السابق المنشور (Own previous work) دون الإشارة إليه."
+    },
+    { 
+        q: "6. How many core quality attributes derived from IEEE 830 apply to most technical writing?", 
+        options: ["A) 3", "B) 5", "C) 8", "D) 10"], 
+        ans: 1,
+        reminder: "رقم الجودة = المعيار (IEEE 830) يشتق منه 5 صفات أساسية للجودة."
+    },
+    { 
+        q: "7. The \"5 Cs\" of technical writing are:", 
+        options: ["A) Creativity, beauty, eloquence, clarity, conciseness", "B) Correctness, clarity, completeness, consistency, changeability", "C) Cost, time, effort, resources, management", "D) Introduction, body, conclusion, appendices, references"], 
+        ans: 1,
+        reminder: "الـ 5 Cs المشهورة = Correctness, Clarity, Completeness, Consistency, Changeability."
+    },
+    { 
+        q: "8. Plagiarism is:", 
+        options: ["A) Presenting someone else's work as your own", "B) Using too many sources", "C) Writing a long introduction", "D) Using footnotes"], 
+        ans: 0,
+        reminder: "السرقة الأدبية = تقديم عمل شخص آخر (Someone else's work) على أنه ملكك."
+    },
+    { 
+        q: "9. Completeness in a technical report is a concept that is:", 
+        options: ["A) Absolute and fixed", "B) Relative, depending on the reader's needs", "C) Unimportant", "D) Always easy to achieve"], 
+        ans: 1,
+        reminder: "الكمال والتمام = مفهوم نسبي (Relative) يتحدد بناءً على احتياجات القارئ."
+    },
+    { 
+        q: "10. External consistency means:", 
+        options: ["A) All parts of the document are consistent with each other", "B) The document agrees with external sources and specifications", "C) Consistency of page margins", "D) Using the same font type"], 
+        ans: 1,
+        reminder: "الاتساق الخارجي = التوافق مع المصادر والمواصفات الخارجية (External sources)."
+    },
+    { 
+        q: "11. Changeability requires that the document be:", 
+        options: ["A) Printed on luxury paper", "B) Organized, numbered, and stored electronically", "C) Very long", "D) Handwritten"], 
+        ans: 1,
+        reminder: "قابلية التعديل = التخزين الإلكتروني (Stored electronically) والتنظيم والترقيم لسهولة التحديث."
+    },
+    { 
+        q: "12. According to Goldman [2010], which type of source is perceived as more credible?", 
+        options: ["A) Wiki-style", "B) Anonymous sources", "C) Personal blogs", "D) Conventionally authored content"], 
+        ans: 3,
+        reminder: "دراسة Goldman = المحتوى المكتوب بأسلوب تقليدي ومعروف المؤلف (Conventionally authored) هو الأكثر مصداقية."
+    },
+    { 
+        q: "13. Which type of audience has the least amount of technical background?", 
+        options: ["A) Experts", "B) Executives", "C) Technicians", "D) Nonspecialists"], 
+        ans: 3,
+        reminder: "الأقل خلفية تقنية = غير المتخصصين (Nonspecialists) مثل عامة الناس أو العملاء."
+    },
+    { 
+        q: "14. Adapting content means:", 
+        options: ["A) Writing the same content for everyone", "B) Tailoring content to fit the target audience's needs", "C) Always using complex language", "D) Avoiding examples"], 
+        ans: 1,
+        reminder: "تكييف المحتوى = تفصيل وتفصيل المحتوى ليناسب جمهورك المستهدف (Tailoring to fit audience)."
+    },
+    { 
+        q: "15. Information pruning means:", 
+        options: ["A) Adding more details", "B) Repeating information", "C) Omitting data the reader does not need", "D) Using larger fonts"], 
+        ans: 2,
+        reminder: "تقليم المعلومات = حذف واقتطاع البيانات (Omitting data) التي لا يحتاجها القارئ."
+    },
+    { 
+        q: "16. The ideal sentence length in technical writing is:", 
+        options: ["A) 15-25 words", "B) 5-10 words", "C) 40-50 words", "D) More than 60 words"], 
+        ans: 0,
+        reminder: "المعدل المثالي للجملة = من 15 إلى 25 كلمة فقط للحفاظ على التركيز."
+    },
+    { 
+        q: "17. For online reading, it is preferable to use:", 
+        options: ["A) Serif fonts (e.g., Times New Roman)", "B) Sans-serif fonts (e.g., Arial)", "C) Decorative fonts", "D) Handwriting fonts"], 
+        ans: 1,
+        reminder: "القراءة عبر الشاشة = خطوط بدون زوائد (Sans-serif) مثل Arial لأنها مريحة للعين إلكترونياً."
+    },
+    { 
+        q: "18. The cover letter in a technical report is:", 
+        options: ["A) The main title page", "B) The table of contents", "C) A letter explaining the context of the report's preparation", "D) The executive summary"], 
+        ans: 2,
+        reminder: "خطاب الغلاف = يشرح سياق وخلفية إعداد التقرير (Explaining the context)."
+    },
+    { 
+        q: "19. A descriptive abstract provides:", 
+        options: ["A) All key facts and conclusions", "B) An overview of the purpose and contents only", "C) Details of laboratory experiments", "D) Future recommendations"], 
+        ans: 1,
+        reminder: "الملخص الوصفي = يعطي نظرة عامة عن الهدف والمحتويات فقط (Overview of purpose & contents) دون نتائج."
+    },
+    { 
+        q: "20. An executive summary should typically be:", 
+        options: ["A) 1/10 to 1/20 of the report's length", "B) Equal to the report's length", "C) Only one page regardless of report length", "D) Half the report's length"], 
+        ans: 0,
+        reminder: "نسبة الملخص التنفيذي = يمثل من 1/10 إلى 1/20 من الطول الإجمالي للتقرير الكامل."
+    },
+    { 
+        q: "21. In the table of contents, main chapters are usually written in:", 
+        options: ["A) Lowercase letters", "B) Italics", "C) Underlined", "D) ALL CAPS"], 
+        ans: 3,
+        reminder: "الفصول الرئيسية بالفهرس = تكتب بحروف كبيرة بالكامل (ALL CAPS) للتمييز البصري."
+    },
+    { 
+        q: "22. If a document has more than two figures or tables, you should:", 
+        options: ["A) Combine them together", "B) Ignore the tables", "C) Create a separate list of figures and tables", "D) Put them only in the appendix"], 
+        ans: 2,
+        reminder: "أكثر من عنصرين بصريين = يجب إنشاء قائمة منفصلة للأشكال والجداول (Separate list)."
+    },
+    { 
+        q: "31. What is the primary function of a report's introduction?", 
+        options: ["A) To present the final results", "B) To provide acknowledgments", "C) To list references", "D) To prepare the reader to read the main body of the report"], 
+        ans: 3,
+        reminder: "المهمة الأساسية للمقدمة = تهيئة وتحضير القارئ (Prepare the reader) للدخول في صلب التقرير."
+    },
+    { 
+        q: "32. Which of the following is NOT a function of the introduction?", 
+        options: ["A) Defining the starting point", "B) Describing scope and targets", "C) Providing detailed recommendations", "D) Mentioning technical prerequisites"], 
+        ans: 2,
+        reminder: "ليست من مهام المقدمة = التوصيات التفصيلية (Detailed recommendations)؛ فهذه مكانها في النهاية."
+    },
+    { 
+        q: "33. The summary is located:", 
+        options: ["A) At the beginning of the report", "B) At the end of the report", "C) In the middle of the report", "D) In the appendix"], 
+        ans: 1,
+        reminder: "المخلص الختامي (Summary) = مكانه الطبيعي والمنطقي في نهاية التقرير (At the end)."
+    },
+    { 
+        q: "34. Appendices are used to place:", 
+        options: ["A) Main chapters", "B) Large materials that don't fit in the report's body", "C) The introduction", "D) The conclusion"], 
+        ans: 1,
+        reminder: "الملاحق (Appendices) = توضع بها المواد الضخمة والجداول الكبيرة (Large materials) التي تعيق تدفق النص."
+    },
+    { 
+        q: "35. Which type of ending provides a general future outlook?", 
+        options: ["A) Summary", "B) True Conclusions", "C) Afterword", "D) References list"], 
+        ans: 2,
+        reminder: "نظرة مستقبلية عامة = الخاتمة الاستشرافية (Afterword)."
+    },
+    { 
+        q: "36. Page numbering in traditional report design:", 
+        options: ["A) Starts from the first page with Arabic numerals", "B) Uses lowercase Roman numerals for preliminary sections and Arabic numerals for the body", "C) Uses no numbers", "D) Uses alphabetical letters"], 
+        ans: 1,
+        reminder: "ترقيم الصفحات التقليدي = روماني صغير (i, ii) للتمهيد، وأرقام عربية (1, 2) لمتن التقرير."
+    },
+    { 
+        q: "37. Citations serve a fundamental function of:", 
+        options: ["A) Increasing page count", "B) Showing general culture", "C) Avoiding footnotes", "D) Linking the writer's work to existing knowledge"], 
+        ans: 3,
+        reminder: "الاستشهادات = ربط عمل الكاتب بالمعرفة الحالية والموجودة مسبقاً (Existing knowledge)."
+    },
+    { 
+        q: "38. APA style for in-text citations uses the format:", 
+        options: ["A) (Author, page number)", "B) (Footnote number)", "C) (Author, year)", "D) (Article title)"], 
+        ans: 2,
+        reminder: "نظام APA = يعتمد على (المؤلف، السنة) مثل (Smith, 2026)."
+    },
+    { 
+        q: "39. MLA style for in-text citations uses the format:", 
+        options: ["A) (Author, year)", "B) [Reference number]", "C) (Author, page number)", "D) (Book title)"], 
+        ans: 2,
+        reminder: "نظام MLA = يعتمد على (المؤلف، رقم الصفحة) مثل (Smith, 45)."
+    },
+    { 
+        q: "40. Which of these tools helps manage citations?", 
+        options: ["A) Only Microsoft Word", "B) Zotero and EndNote", "C) Adobe Photoshop", "D) Google Chrome"], 
+        ans: 1,
+        reminder: "إدارة المراجع = أشهر البرامج والأدوات المتخصصة هي Zotero و EndNote."
+    },
+    { 
+        q: "41. \"Patch-writing\" is a form of plagiarism that means:", 
+        options: ["A) Writing completely original work", "B) Changing a few words while retaining the original structure", "C) Using quotation marks", "D) Citing all sources"], 
+        ans: 1,
+        reminder: "الكتابة المرقعة = تغيير كلمات بسيطة مع الحفاظ على هيكل الجملة الأصلي وهو انتحال."
+    },
+    { 
+        q: "42. The common documentation system used in engineering is:", 
+        options: ["A) MLA", "B) APA", "C) IEEE", "D) Chicago"], 
+        ans: 2,
+        reminder: "هندسة = دائمًا نختار معيار IEEE للأرقام المربعة والمجالات التقنية."
+    },
+    { 
+        q: "43. Which of the following is a visual element?", 
+        options: ["A) Diagrams", "B) Graphs", "C) Tables", "D. All of the above"], 
+        ans: 3,
+        reminder: "العناصر البصرية = تشمل كل ما يُرى لتسهيل الفهم (رسومات، مخططات، جداول)."
+    },
+    { 
+        q: "44. The fundamental rule of citation is:", 
+        options: ["A) Every in-text citation must have a corresponding full citation at the end of the paper", "B) Citations are optional", "C) Citations can be used without mentioning sources", "D) It is enough to mention sources in the introduction"], 
+        ans: 0,
+        reminder: "القاعدة الذهبية = كل استشهاد داخلي (In-text) يجب أن يقابله مرجع كامل في النهاية."
+    },
+    { 
+        q: "45. One stage of technical writing is:", 
+        options: ["A) Preparation", "B) Research", "C) Drafting", "D) All of the above"], 
+        ans: 3,
+        reminder: "مراحل الكتابة = تشمل السلسلة كاملة (التحضير، البحث، ثم صياغة المسودة)."
+    },
+    { 
+        q: "46. Very old references may be:", 
+        options: ["A) Unsuitable for modern technologies", "B) Always best", "C) Mandatory", "D) Not useful"], 
+        ans: 0,
+        reminder: "المراجع القديمة جداً = غير مناسبة للتقنيات الحديثة (Unsuitable for modern tech) سريعة التطور."
+    },
+
+    // ==================== المرحلة الأولى: صح / خطأ ====================
+    { 
+        q: "1. Technical accuracy means clarity in scientific data and facts.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "الدقة التقنية = تعني الوضوح والصحة التامة في البيانات والحقائق العلمية." 
+    },
+    { 
+        q: "2. Peer-reviewed journals provide the highest level of authority but are slow in publication.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "المجلات المحكمة = أعلى سلطة وموثوقية علمية ولكن عيبها البطء في النشر." 
+    },
+    { 
+        q: "3. It is better to use long, complex sentences exceeding 30 words.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "الجمل الطويلة المعقدة خطأ! الاختصار والوضوح هما الأساس في التقارير." 
+    },
+    { 
+        q: "4. According to Goldman's study, readers trust wiki-style content more than conventional content.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ دراسة Goldman أثبتت أن القراء يثقون في الأسلوب التقليدي الموثق أكثر من الويكي." 
+    },
+    { 
+        q: "5. Audience analysis is a secondary factor in technical writing.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ تحليل الجمهور (Audience analysis) هو عامل أساسي وأولي وليس ثانوياً." 
+    },
+    { 
+        q: "6. It is better to use the automatic table of contents feature in word processing software.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ الفهرس التلقائي يوفر الوقت ويمنع الأخطاء البشرية في أرقام الصفحات." 
+    },
+    { 
+        q: "7. The wording in the table of contents must exactly match the headings in the report's body.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ التطابق الحرفي بين العناوين في الفهرس ومتن التقرير إلزامي واحترافي." 
+    },
+    { 
+        q: "8. The introduction is the last thing the reader reads in the report.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ المقدمة هي أول ما يقرأه القارئ لتهيئته، وإن كانت تُكتب أحياناً في النهاية." 
+    },
+    { 
+        q: "9. Pronouns (like \"this\") can be used to refer back to headings.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ يمنع استخدام الضمائر المبهمة للإشارة إلى العناوين الرئيسية، بل يجب ذكر المفهوم صراحة." 
+    },
+    { 
+        q: "10. The final section can combine elements of summary, conclusions, and future outlook.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ يمكن دمج الخلاصة والنتائج والنظرة المستقبلية في قسم ختامي موحد بذكاء." 
+    },
+    { 
+        q: "11. Citations are only necessary for direct quotes, not for paraphrasing.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ الاستشهاد واجب للعبارات المنقولة نصياً وكذلك للأفكار المعاد صياغتها (Paraphrasing)." 
+    },
+    { 
+        q: "12. All citation styles (APA, MLA, IEEE) are identical in format.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ كل معيار له تنسيق فريد وخاص به (الأرقام للهندسة، والتواريخ لعلم النفس والاجتماع)." 
+    },
+    { 
+        q: "13. Consistency in using a single citation style throughout the document is an absolute professional mandate.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ الالتزام بنسق مرجعي واحد موحد طوال التقرير أمر احترافي صارم لا نقاش فيه." 
+    },
+    { 
+        q: "14. When working with co-authors, jointly produced material can be reused without permission.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ حتى المواد المشتركة مع زملائك تتطلب إذناً وإشارة واضحة لتجنب شبهة الانتحال." 
+    },
+    { 
+        q: "15. A technical report explains research processes or development results.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ هذا هو التعريف الوظيفي الدقيق للتقرير التقني." 
+    },
+    { 
+        q: "16. Graphics and tables help clarify information.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ العناصر التوضيحية تختصر آلاف الكلمات وتقدم البيانات بوضوح مبهر." 
+    },
+    { 
+        q: "17. Revision helps improve the quality of the report.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ المراجعة والتنقيح هما الفارق بين التقرير الضعيف والتقرير الممتاز." 
+    },
+
+    // ==================== المرحلة الثانية: الاختيار من متعدد ====================
+    { 
+        q: "QB(1) The purpose of the abstract is to:", 
+        options: ["A. Explain references", "B. Summarize the whole report", "C. Show figures", "D. Describe future work"], 
+        ans: 1,
+        reminder: "Abstract = ملخص شامل ومكثف لكل أجزاء التقرير (Summarize the whole report)."
+    },
+    { 
+        q: "QB(2) Which section explains how the research was conducted?", 
+        options: ["A. Introduction", "B. Results", "C. Methodology", "D. Conclusion"], 
+        ans: 2,
+        reminder: "كيف تم البحث؟ = المنهجية وطريقة العمل (Methodology)."
+    },
+    { 
+        q: "QB(3) Which section presents data and findings?", 
+        options: ["A. Introduction", "B. Methodology", "C. Results", "D. References"], 
+        ans: 2,
+        reminder: "البيانات والمكتشفات الباردة = قسم النتائج (Results)."
+    },
+    { 
+        q: "QB(4) The conclusion section mainly:", 
+        options: ["A. Adds new experiments", "B. Adds references", "C. Summarizes the main findings", "D. Explains methodology"], 
+        ans: 2,
+        reminder: "الخاتمة = تلخيص وتقييم المكتشفات الرئيسية (Summarizes main findings) دون تجارب جديدة."
+    },
+    { 
+        q: "QB(5) A reference is used to:", 
+        options: ["A. Make the report longer", "B. Show the source of information", "C. Replace the introduction", "D. Add figures"], 
+        ans: 1,
+        reminder: "المرجع = إظهار وتوثيق مصدر المعلومة لضمان الأمانة العلمية (Show the source)."
+    },
+    { 
+        q: "QB(6) Using someone else's work without citing the source is called:", 
+        options: ["A. Citation", "B. Referencing", "C. Plagiarism", "D. Paraphrasing"], 
+        ans: 2,
+        reminder: "سرقة مجهود الآخرين = الانتحال العلمي والأدبي (Plagiarism)."
+    },
+    { 
+        q: "QB(7) In IEEE style, citations appear as:", 
+        options: ["A. (Author, year)", "B. [Author, year]", "C. [1], [2], [3]", "D. {1}, {2}"], 
+        ans: 2,
+        reminder: "IEEE = نظام الأرقام داخل أقواس مربعة صلبة مثل [1]، [2]."
+    },
+    { 
+        q: "QB(8) Where is the figure caption placed?", 
+        options: ["A. Above the figure", "B. Below the figure", "C. On the side", "D. In references"], 
+        ans: 1,
+        reminder: "Figure Caption = دائماً عنوان الشكل التوضيحي أو الصورة يكون بالأسفل (Below)."
+    },
+    { 
+        q: "QB(9) Where is the table caption usually placed?", 
+        options: ["A. Above the table", "B. Below the table", "C. Inside the table", "D. In references"], 
+        ans: 0,
+        reminder: "Table Caption = دائماً عنوان الجدول الإحصائي أو الرقمي يكون بالأعلى (Above)."
+    },
+    { 
+        q: "QB(10) If a figure is taken from another paper, you must:", 
+        options: ["A. Delete the author name", "B. Ignore the source", "C. Add a reference", "D. Change the title"], 
+        ans: 2,
+        reminder: "نقل شكل خارجي = يجب حتماً وضع مرجع لتوثيق المصدر الأصلي وحقوق الملكية (Add a reference)."
+    },
+    { 
+        q: "QB(11) Which tense is commonly used in methodology?", 
+        options: ["A. Future", "B. Present", "C. Past", "D. Continuous"], 
+        ans: 2,
+        reminder: "زمن المنهجية = الماضي (Past Tense) لأنك تشرح تجارب وخطوات قمت بها وانتهيت منها فعلاً."
+    },
+    { 
+        q: "QB(12) Which tense is commonly used in introduction?", 
+        options: ["A. Present", "B. Past", "C. Future", "D. Perfect"], 
+        ans: 0,
+        reminder: "زمن المقدمة = المضارع (Present Tense) لأنك تتحدث عن حقائق علمية قائمة ومشاكل حالية."
+    },
+    { 
+        q: "QB(13) A technical report should be:", 
+        options: ["A. Emotional", "B. Informal", "C. Clear and objective", "D. Personal"], 
+        ans: 2,
+        reminder: "سمات التقرير الممتاز = واضح وموضوعي وعلمي (Clear and objective)."
+    },
+    { 
+        q: "QB(14) Which is preferred in technical writing?", 
+        options: ["A. I designed the system", "B. We tested the model", "C. The system was designed", "D. I made the experiment"], 
+        ans: 2,
+        reminder: "مبدأ الموضوعية والحياد = نفضل المبني للمجهول (Passive voice) مثل: The system was designed."
+    },
+    { 
+        q: "QB(15) Which section explains the problem and background?", 
+        options: ["A. Results", "B. Introduction", "C. Conclusion", "D. References"], 
+        ans: 1,
+        reminder: "المشكلة والخلفية التاريخية للبحث = مكانها التمهيدي هو المقدمة (Introduction)."
+    },
+    { 
+        q: "QB(16) A technical claim should be supported by:", 
+        options: ["A. Opinions", "B. Figures only", "C. References", "D. Tables only"], 
+        ans: 2,
+        reminder: "الادعاءات العلمية = تحتاج دائماً إلى مراجع وأدلة موثوقة تسندها وتثبت صحتها (References)."
+    },
+    { 
+        q: "QB(17) Which of the following best describes good technical writing?", 
+        options: ["A. Emotional and descriptive", "B. Very long and detailed", "C. Clear, concise, and objective", "D. Personal and informal"], 
+        ans: 2,
+        reminder: "الثالوث الذهبي للكتابة التقنية = وضوح، إيجاز، موضوعية (Clear, concise, and objective)."
+    },
+    { 
+        q: "QB(18) Which section describes study constraints?", 
+        options: ["A. Abstract", "B. Limitations", "C. Results", "D. References"], 
+        ans: 1,
+        reminder: "القيود والعقبات والحدود = قسم محددات الدراسة (Limitations)."
+    },
+    { 
+        q: "QB(19) Future work usually suggests:", 
+        options: ["A. Past results", "B. Possible improvements", "C. References", "D. Figures"], 
+        ans: 1,
+        reminder: "العمل المستقبلي = يقترح تحسينات وتطويرات ممكنة للبناء على ما تم إنجازه (Possible improvements)."
+    },
+    { 
+        q: "QB(20) A figure must be:", 
+        options: ["A. Decorative", "B. Large only", "C. Referenced in the text", "D. Without caption"], 
+        ans: 2,
+        reminder: "شرط الشكل التوضيحي = يجب الإشارة إليه وربطه بالمتن نصياً (Referenced in the text)."
+    },
+    { 
+        q: "QB(21) Which is a common mistake in technical reports?", 
+        options: ["A. Clear figures", "B. Missing references", "C. Proper captions", "D. Clear objectives"], 
+        ans: 1,
+        reminder: "خطأ فادح وشائع = إسقاط المصادر والمراجع (Missing references)."
+    },
+    { 
+        q: "QB(22) The reference list is usually placed:", 
+        options: ["A. At the beginning", "B. At the end of the report", "C. In methodology", "D. In results"], 
+        ans: 1,
+        reminder: "قائمة المراجع الكاملة = تكون دائماً في نهاية المطاف والتقرير (At the end of the report)."
+    },
+    { 
+        q: "QB(23) Which section briefly describes the whole report?", 
+        options: ["A. Abstract", "B. Methodology", "C. Results", "D. References"], 
+        ans: 0,
+        reminder: "بطاقة تعريف التقرير بنظرة سريعة وخاطفة = الـ Abstract."
+    },
+    { 
+        q: "QB(24) A good abstract should be:", 
+        options: ["A. Very long", "B. Concise and clear", "C. Informal", "D. Personal"], 
+        ans: 1,
+        reminder: "صفة المستخلص = موجز ودقيق للغاية (Concise and clear)."
+    },
+    { 
+        q: "QB(25) Replication in methodology means:", 
+        options: ["A. Copying work", "B. Allowing others to repeat the experiment", "C. Writing references", "D. Showing figures"], 
+        ans: 1,
+        reminder: "التكرارية والنسخ المطابق = السماح للباحثين الآخرين بإعادة نفس التجربة للتحقق (Allowing replication)."
+    },
+    { 
+        q: "QB(26) Which part shows numerical data clearly?", 
+        options: ["A. Introduction", "B. Tables", "C. Conclusion", "D. Abstract"], 
+        ans: 1,
+        reminder: "البيانات الرقمية والمقارنات المكثفة = الجداول المنظمة (Tables) هي الأفضل لعرضها."
+    },
+    { 
+        q: "QB(27) Figures are useful for:", 
+        options: ["A. Decoration", "B. Visual explanation of results", "C. Writing references", "D. Writing conclusions"], 
+        ans: 1,
+        reminder: "فائدة المنحنيات والأشكال = الشرح البصري السريع للنتائج المعقدة (Visual explanation)."
+    },
+    { 
+        q: "QB(28) Which section explains why results happened?", 
+        options: ["A. Abstract", "B. Discussion", "C. Methodology", "D. References"], 
+        ans: 1,
+        reminder: "تحليل وتفسير (لماذا) ظهرت هذه النتائج وكيف؟ = قسم المناقشة والتحليل (Discussion)."
+    },
+    { 
+        q: "QB(29) Copying a paragraph without citation is:", 
+        options: ["A. Referencing", "B. Quoting", "C. Plagiarism", "D. Editing"], 
+        ans: 2,
+        reminder: "النسخ الحرفي دون ذكر صاحب الفضل = سرقة علمية وانتحال (Plagiarism)."
+    },
+    { 
+        q: "QB(30) Paraphrasing means:", 
+        options: ["A. Copying text", "B. Rewriting ideas in your own words", "C. Deleting text", "D. Adding figures"], 
+        ans: 1,
+        reminder: "إعادة الصياغة الاحترافية = إعادة صياغة الفكرة بأسلوبك وكلماتك الخاصة المتميزة (Own words)."
+    },
+    { 
+        q: "QB(31) Which writing style is preferred in technical reports?", 
+        options: ["A. Emotional", "B. Storytelling", "C. Formal", "D. Personal"], 
+        ans: 2,
+        reminder: "النبرة الأكاديمية المطلوبة = الأسلوب الرسمي الجاد (Formal style) الملتزم بالمعايير."
+    },
+    { 
+        q: "QB(32) Which is NOT a reliable reference source?", 
+        options: ["A. Journal paper", "B. Book", "C. Random blog", "D. Conference paper"], 
+        ans: 2,
+        reminder: "غير موثوق علمياً = المدونات الشخصية العشوائية على الإنترنت (Random blog) لغياب التحكيم."
+    },
+    { 
+        q: "QB(33) Which section states the main achievements?", 
+        options: ["A. Introduction", "B. Results", "C. Conclusion", "D. References"], 
+        ans: 2,
+        reminder: "حصاد الإنجازات والأهداف المحققة بالدليل = يظهر بوضوح في الخاتمة الختامية (Conclusion)."
+    },
+    { 
+        q: "QB(34) Figures in section 3 should be numbered like:", 
+        options: ["A. Figure 1", "B. Figure 3.1", "C. Figure A", "D. Figure 10"], 
+        ans: 1,
+        reminder: "ترقيم الأشكال المعتمد على الأقسام = رقم القسم أولاً ثم نقطة ثم رقم الشكل؛ إذن (Figure 3.1)."
+    },
+    { 
+        q: "QB(35) Which element improves readability of results?", 
+        options: ["A. Paragraphs only", "B. Figures and tables", "C. References", "D. Titles"], 
+        ans: 1,
+        reminder: "رفع كفاءة وسرعة القراءة = دمج الأشكال التوضيحية والجداول معاً لتفتيت النصوص المعقدة."
+    },
+    { 
+        q: "QB(36) A caption should:", 
+        options: ["A. Be very long", "B. Briefly describe the figure", "C. Replace the text", "D. Ignore references"], 
+        ans: 1,
+        reminder: "وظيفة التسمية التوضيحية (Caption) = شرح ووصف العنصر البصري بإيجاز شديد (Briefly describe)."
+    },
+    { 
+        q: "QB(37) A research limitation means:", 
+        options: ["A. Error in writing", "B. Restriction in the study", "C. Reference issue", "D. Figure problem"], 
+        ans: 1,
+        reminder: "محددات وعيوب الدراسة الخارجة عن إرادتك = قيود وشروط مفروضة على العمل (Restriction)."
+    },
+    { 
+        q: "QB(38) Future work is usually placed:", 
+        options: ["A. Before introduction", "B. After conclusion", "C. In abstract", "D. In references"], 
+        ans: 1,
+        reminder: "أين تضع توصيات المستقبل؟ = تتبع مباشرة وتتصل بقسم الخاتمة النهائي (After conclusion)."
+    },
+    { 
+        q: "QB(39) Technical writing should avoid:", 
+        options: ["A. Figures", "B. Tables", "C. Informal language", "D. References"], 
+        ans: 2,
+        reminder: "الممنوعات والخطوط الحمراء = تجنب العامية واللغة غير الرسمية والركيكة (Informal language)."
+    },
+    { 
+        q: "QB(40) Which improves credibility of a report?", 
+        options: ["A. Long sentences", "B. Opinions", "C. Proper references", "D. Personal stories"], 
+        ans: 2,
+        reminder: "جلب المصداقية العلمية للتقرير = التوثيق والإسناد الصحيح للمراجع الأكاديمية (Proper references)."
+    },
+    { 
+        q: "QB(41) A figure without caption is:", 
+        options: ["A. Correct", "B. Incorrect", "C. Optional", "D. Preferred"], 
+        ans: 1,
+        reminder: "صورة بدون كتابة أو اسم توضيحي = خطأ تنسيقي جسيم (Incorrect)."
+    },
+    { 
+        q: "QB(42) Tables are best used for:", 
+        options: ["A. Images", "B. Numerical data", "C. Titles", "D. References"], 
+        ans: 1,
+        reminder: "البيئة المثالية للجداول = مصفوفات الأرقام والبيانات الإحصائية الدقيقة (Numerical data)."
+    },
+    { 
+        q: "QB(43) Which is part of good technical writing?", 
+        options: ["A. Vagueness", "B. Clarity", "C. Emotion", "D. Storytelling"], 
+        ans: 1,
+        reminder: "الركيزة الأساسية والأهم في عالم التقارير = الوضوح الشديد (Clarity)."
+    },
+    { 
+        q: "QB(44) Which section describes the research method?", 
+        options: ["A. Abstract", "B. Methodology", "C. Results", "D. Conclusion"], 
+        ans: 1,
+        reminder: "طريقة البحث والخطوات التجريبية = قسم المنهجية (Methodology)."
+    },
+    { 
+        q: "QB(45) Which section lists sources used in the report?", 
+        options: ["A. Abstract", "B. Results", "C. References", "D. Conclusion"], 
+        ans: 2,
+        reminder: "قائمة المصادر الكاملة في نهاية البحث = قائمة المراجع (References)."
+    },
+    { 
+        q: "QB(46) A report objective should be:", 
+        options: ["A. Hidden", "B. Clearly stated", "C. Very long", "D. Emotional"], 
+        ans: 1,
+        reminder: "هدف التقرير = يجب أن يكون مصاغاً بوضوح ودون أي غموض أو مواربة (Clearly stated)."
+    },
+    { 
+        q: "QB(47) Which improves understanding of complex systems?", 
+        options: ["A. Long text", "B. Block diagrams", "C. References", "D. Titles"], 
+        ans: 1,
+        reminder: "فهم الأنظمة المعقدة المترابطة = استخدام المخططات الصندوقية التدفقية (Block diagrams)."
+    },
+    { 
+        q: "QB(48) Academic integrity requires:", 
+        options: ["A. Copying work", "B. Ignoring references", "C. Citing sources properly", "D. Writing long paragraphs"], 
+        ans: 2,
+        reminder: "النزاهة الأكاديمية والأخلاقية = توثيق المصادر ونسب الفضل لأصحابه بدقة (Citing sources properly)."
+    },
+    { 
+        q: "QB(49) Which is a characteristic of good reports?", 
+        options: ["A. Ambiguity", "B. Conciseness", "C. Emotion", "D. Storytelling"], 
+        ans: 1,
+        reminder: "الإيجاز والابتعاد عن الحشو = سمة الكاتب الذكي (Conciseness)."
+    },
+    { 
+        q: "QB(50) Before submitting a report, students should:", 
+        options: ["A. Ignore references", "B. Remove figures", "C. Check grammar and citations", "D. Delete conclusion"], 
+        ans: 2,
+        reminder: "خطوة ما قبل التسليم النهائي = مراجعة القواعد اللغوية وتدقيق الاقتباسات (Check grammar & citations)."
+    },
+    { 
+        q: "QB(51) Which of the following statements best describes plagiarism?", 
+        options: ["A. Using figures from your experiment", "B. Using another author's work without proper citation", "C. Writing long paragraphs", "D. Summarizing results"], 
+        ans: 1,
+        reminder: "تعريف الانتحال = أخذ مجهود كاتب آخر وإخفاء اسمه دون اقتباس صحيح (Without proper citation)."
+    },
+    { 
+        q: "QB(52) If a figure is modified from another paper, the correct caption should include:", 
+        options: ["A. Only the figure title", "B. No citation", "C. Adapted from [reference number]", "D. Only the author name"], 
+        ans: 2,
+        reminder: "تعديل رسمة باحث آخر = كتابة جملة مأخوذ ومعدل عن المرجع الفلاني: Adapted from [X]."
+    },
+    { 
+        q: "QB(53) Which of the following should NOT normally appear in the abstract?", 
+        options: ["A. Research objective", "B. Method summary", "C. Main results", "D. Detailed references"], 
+        ans: 3,
+        reminder: "ممنوعات الـ Abstract = يحظر تماماً وضع استشهادات ومراجع تفصيلية بداخلها (Detailed references)."
+    },
+    { 
+        q: "QB(54) Which of the following is the main purpose of the methodology section?", 
+        options: ["A. Present experimental results", "B. Provide references", "C. Allow other researchers to replicate the study", "D. Summarize the entire report"], 
+        ans: 2,
+        reminder: "الهدف الجوهري للمنهجية = توفير خريطة طريق تسمح للغير بإعادة التجربة وتكرارها للتأكد (Replicate the study)."
+    },
+    { 
+        q: "QB(55) In technical writing, the sentence: \"We built a very amazing and cool system.\" is considered poor because:", 
+        options: ["A. It is too short", "B. It uses technical vocabulary", "C. It uses informal and subjective language", "D. It is grammatically correct"], 
+        ans: 2,
+        reminder: "جملة غير احترافية = بسبب الكلمات العاطفية والتفخيم الشخصي غير المقاس علمياً (Informal & subjective)."
+    },
+    { 
+        q: "QB(56) Which of the following best improves clarity in technical reports?", 
+        options: ["A. Long paragraphs", "B. Informal writing", "C. Using figures and tables to present data", "D. Avoiding captions"], 
+        ans: 2,
+        reminder: "تحسين وضوح العرض العام = الاعتماد المكثف على الجداول والأشكال التوضيحية الذكية لعرض البيانات المعقدة."
+    },
+    { 
+        q: "QB(57) A technical claim such as: \"Machine learning significantly improves prediction accuracy.\" should ideally be supported by:", 
+        options: ["A. A personal opinion", "B. A long paragraph", "C. A reliable reference or research study", "D. A table only"], 
+        ans: 2,
+        reminder: "دعم الادعاءات التقنية الشاملة = الاستناد إلى مراجع موثوقة أو دراسات علمية منشورة ومثبتة مسبقاً."
+    },
+    { 
+        q: "QB(58) Which of the following is NOT a limitation of a study?", 
+        options: ["A. Limited dataset", "B. Restricted testing conditions", "C. Limited hardware resources", "D. Summary of results"], 
+        ans: 3,
+        reminder: "ليست من المحددات والمعوقات = تلخيص واستعراض النتائج؛ فهذا إنجاز إيجابي وليس قيداً سلبياً."
+    },
+    { 
+        q: "QB(59) If a report states: \"The proposed system reduces energy consumption by 30%.\" the most appropriate section for this statement is:", 
+        options: ["A. Introduction", "B. Results", "C. References", "D. Future Work"], 
+        ans: 1,
+        reminder: "أرقام الإنجاز الفعلي (تقليل الطاقة بـ 30%) = نتائج رقمية حاسمة تدرج فوراً في قسم النتائج (Results)."
+    },
+    { 
+        q: "QB(60) Which of the following is the correct IEEE-style citation format inside the text?", 
+        options: ["A. (Smith, 2018)", "B. Smith, 2018", "C. {Smith 2018}", "D. [5]"], 
+        ans: 3,
+        reminder: "صيغة التوثيق الداخلي بأسلوب IEEE = رقم المرجع مجرداً ومحاصراً بين قوسين مربعين صلبين مثل [5]."
+    },
+
+    // ==================== المرحلة الثالثة: الاختيار من متعدد ====================
+    { 
+        q: "M3-1. Which section ensures reproducibility of research?", 
+        options: ["A. Abstract", "B. Methodology", "C. Introduction", "D. Conclusion"], 
+        ans: 1,
+        reminder: "القدرة على إعادة الإنتاج والتحقق (Reproducibility) = ترتبط كلياً بقسم المنهجية وطريقة العمل (Methodology)."
+    },
+    { 
+        q: "M3-2. A strong technical claim must include:", 
+        options: ["A. Evidence", "B. Opinion", "C. Emotion", "D. Length"], 
+        ans: 0,
+        reminder: "قوة الادعاء الهندسي أو العلمي = تكمن وتعتمد كلياً في وجود الدليل والبرهان القاطع (Evidence)."
+    },
+    { 
+        q: "M3-3. Which is NOT part of a good abstract?", 
+        options: ["A. Objective", "B. Method", "C. Detailed references", "D. Results"], 
+        ans: 2,
+        reminder: "المستبعد من الـ Abstract = تفاصيل المراجع والاستشهادات؛ فالمستخلص يجب أن يكتب بكلماتك أنت فقط."
+    },
+    { 
+        q: "M3-4. Which improves report credibility the most?", 
+        options: ["A. Long sentences", "B. Proper citations", "C. Emotional language", "D. Repetition"], 
+        ans: 1,
+        reminder: "تعزيز المصداقية الأكاديمية والمهنية للتقرير = الاستشهاد الدقيق والمناسب بالمصادر (Proper citations)."
+    },
+    { 
+        q: "M3-5. Which of the following scenarios represents the strongest violation of scientific writing principles?", 
+        options: ["A. Using passive voice excessively", "B. Reporting results without numerical evidence", "C. Using inconsistent font sizes", "D. Including too many figures"], 
+        ans: 1,
+        reminder: "أكبر انتهاك علمي وسقوط مهني = سرد نتائج تجريبية غامضة ومرسلة دون أي أرقام أو أدلة قياسية حقيقية."
+    },
+    { 
+        q: "M3-6. A report states: “The model performs significantly better than previous approaches.” What is the most critical issue?", 
+        options: ["A. Passive voice", "B. Lack of citation", "C. Vague claim without quantitative evidence", "D. Incorrect tense"], 
+        ans: 2,
+        reminder: "المشكلة في عبارة (أفضل بكثير) = ادعاء فضفاض وغامض يفتقر للأرقام الدقيقة والنسب المقارنة (Quantitative evidence)."
+    },
+    { 
+        q: "M3-7. Which combination produces the most logically consistent report flow?", 
+        options: ["A. Results → Introduction → Methodology", "B. Introduction → Methodology → Results → Conclusion", "C. Methodology → Abstract → Results", "D. Conclusion → Literature Review → Introduction"], 
+        ans: 1,
+        reminder: "التدفق المنطقي السليم والشامل للتقرير التقني = مقدمة ➔ منهجية ➔ نتائج ➔ خاتمة نهائية للبحث."
+    },
+    { 
+        q: "M3-8. If the Methodology explains what was done but not why it was done, the report lacks:", 
+        options: ["A. Completeness", "B. Conciseness", "C. External consistency", "D. Formatting"], 
+        ans: 0,
+        reminder: "ذكر الفعل دون تبرير سببه العلمي التقني = يخل تماماً بمبدأ اكتمال المعلومة وتمامها (Completeness)."
+    },
+    { 
+        q: "M3-9. Which of the following is the most appropriate placement for this statement: “The system achieved 94% accuracy and reduced latency by 20%.”", 
+        options: ["A. Introduction", "B. Methodology", "C. Results", "D. References"], 
+        ans: 2,
+        reminder: "أرقام ونسب النجاح الفعلية المحققة في الاختبارات = تدرج فوراً وقطعاً في قسم النتائج الرقمية (Results)."
+    },
+    { 
+        q: "M3-10. A strong Literature Review should lead directly to:", 
+        options: ["A. The abstract", "B. The research gap", "C. The appendix", "D. The references list"], 
+        ans: 1,
+        reminder: "الهدف من استعراض الأبحاث السابقة = إبراز وتحديد الفجوة البحثية (Research gap) التي جئت أنت لتغلقها بابتكارك."
+    },
+    { 
+        q: "M3-11. Which of the following represents implicit plagiarism?", 
+        options: ["A. Copying text directly", "B. Rewriting ideas without citation", "C. Using quotation marks", "D. Adding references"], 
+        ans: 1,
+        reminder: "الانتحال الضمني المبطن = سرقة الفكرة وإعادة صياغتها بأسلوب آخر مع تعمد إخفاء صاحب الفكرة الأصلي."
+    },
+    { 
+        q: "M3-12. Which section is MOST responsible for ensuring reproducibility?", 
+        options: ["A. Introduction", "B. Methodology", "C. Conclusion", "D. Abstract"], 
+        ans: 1,
+        reminder: "المسؤول الأول عن قدرة الآخرين على تكرار نظامك = قسم الخطوات والمنهجية المتبعة (Methodology)."
+    },
+    { 
+        q: "M3-13. Which of the following is the most critical requirement for an Abstract?", 
+        options: ["A. Detailed diagrams", "B. Full explanation", "C. Accurate representation of the entire report", "D. Multiple references"], 
+        ans: 2,
+        reminder: "الشرط الأهم للـ Abstract = أن يكون مرآة صادقة ودقيقة تمثل التقرير كاملاً بجميع فصوله (Accurate representation)."
+    },
+    { 
+        q: "M3-14. Which section primarily connects problem → solution → outcome?", 
+        options: ["A. References", "B. Abstract", "C. Discussion", "D. Title Page"], 
+        ans: 1,
+        reminder: "ثلاثية (المشكلة ➔ الحل ➔ النتيجة النهائية) باختصار شديد = الهيكل الداخلي لملخص التقرير (Abstract)."
+    },
+    { 
+        q: "M3-15. Which is the most subtle but serious mistake?", 
+        options: ["A. Typo in one word", "B. Missing page number", "C. Inconsistent terminology (e.g., model/system/app)", "D. Short paragraph"], 
+        ans: 2,
+        reminder: "الخطأ الخفي والقاتل = عدم ثبات المصطلحات والخلط بين المسميات لشيء واحد مما يشتت ذهن القارئ تماماً."
+    },
+    { 
+        q: "M3-16. Which reflects high-level academic writing skill?", 
+        options: ["A. Long sentences", "B. Complex vocabulary only", "C. Clear, precise, evidence-based statements", "D. Emotional arguments"], 
+        ans: 2,
+        reminder: "قمة المهارة في الكتابة الأكاديمية = صياغة عبارات واضحة، محددة بدقة، ومبنية على الدليل المادي القياسي."
+    },
+    { 
+        q: "M3-17. Which is the best improvement for this sentence: “The system is better.”", 
+        options: ["A. The system is good", "B. The system improved", "C. The system improved accuracy by 18% compared to baseline", "D. The system is strong"], 
+        ans: 2,
+        reminder: "تحويل الجملة الضعيفة إلى هندسية احترافية = ذكر نسبة مئوية محددة ومقارنتها بالنموذج المرجعي الأساسي (Baseline)."
+    },
+    { 
+        q: "M3-18. Which of the following is a critical alignment rule?", 
+        options: ["A. Title must match references", "B. Objectives must match results", "C. Abstract must match diagrams", "D. Figures must match fonts"], 
+        ans: 1,
+        reminder: "قاعدة المحاذاة والربط الصارمة = أهدافك المذكورة في البداية يجب أن تقابلها نتائج تجريبية تثبتها في النهاية."
+    },
+    { 
+        q: "M3-19. A student wrote the following in the report:\n “The system is very efficient and works really well in most cases.” No numerical data or references were provided.\nWhat is the main issue in this statement?", 
+        options: ["A. Incorrect tense", "B. Informal tone only", "C. Lack of measurable evidence and technical precision", "D. Wrong section placement"], 
+        ans: 2,
+        reminder: "مشكلة العبارة = غياب التقييم الرقمي القابل للقياس الهندسي والاعتماد على انطباعات شخصية مرسلة."
+    },
+    { 
+        q: "M3-20. A student includes the following in the Abstract: \n• Detailed explanation of algorithms \n• Multiple references \n• Long paragraphs (300+ words) \nWhat is the primary problem?", 
+        options: ["A. Missing figures", "B. Violation of Abstract writing rules", "C. Lack of results", "D. Poor methodology"], 
+        ans: 1,
+        reminder: "المشكلة الكبرى هنا = كسر وانتهاك كافة القواعد الصارمة المحددة لكتابة المستخلص (المراجع والحشو مكانها المتن)."
+    },
+    { 
+        q: "M3-21. In a research report: \n• Objectives: Improve system performance \n• Results: Accuracy improved by 15% \n• No mention of performance metrics in Methodology \nWhat is the issue?", 
+        options: ["A. Weak Introduction", "B. Missing alignment between Methodology and Results", "C. Too many objectives", "D. Poor conclusion"], 
+        ans: 1,
+        reminder: "الخلل التنسيقي = عدم الترابط؛ فكيف تذكر نسبة تحسن في النتائج دون أن تشرح أداة قياسها في قسم المنهجية؟"
+    },
+    { 
+        q: "M3-22. A student copied ideas from a research paper and rewrote them slightly without citation. This is considered:", 
+        options: ["A. Acceptable paraphrasing", "B. Technical summarization", "C. Plagiarism", "D. Referencing"], 
+        ans: 2,
+        reminder: "تغيير طفيف للكلمات مع إخفاء المصدر = سرقة علمية وانتحال صريح للأفكار (Plagiarism)."
+    },
+    { 
+        q: "M3-23. A report uses:\n “Model”, “System”, and “Application” interchangeably for the same concept \nWhat is the main issue?", 
+        options: ["A. Formatting problem", "B. Grammar issue", "C. Lack of consistency affecting clarity", "D. Incorrect citation"], 
+        ans: 2,
+        reminder: "التبديل بين الكلمات لنفس المفهوم = ضربة قاضية لمبدأ الاتساق والثبات (Consistency) وتدمير لوضوح التقرير."
+    },
+    { 
+        q: "M3-24. A student writes: “We used TensorFlow because it is popular.” What is missing?", 
+        options: ["A. Tool name", "B. Justification based on technical reasoning", "C. Dataset description", "D. Evaluation metrics"], 
+        ans: 1,
+        reminder: "استخدام الأداة لشهرتها خطأ = يجب تقديم مبرر فني وتقني مبني على أسس هندسية واضحة (Technical reasoning)."
+    },
+    { 
+        q: "M3-25. A report contains: • Excellent results • Strong implementation • Poor formatting and inconsistent headings What is the likely impact?", 
+        options: ["A. No impact", "B. Reduced readability and professionalism", "C. Incorrect results", "D. Improved clarity"], 
+        ans: 1,
+        reminder: "سوء التنسيق الخارجي = يدمر المظهر الاحترافي ويصعب قراءة التقرير مهما كانت نتائجك قوية وممتازة."
+    },
+    { 
+        q: "M3-26. A student writes in Methodology: “We used a dataset.” No details about size, source, or type. What is the main issue?", 
+        options: ["A. Grammar", "B. Lack of completeness and reproducibility", "C. Too much detail", "D. Wrong tense"], 
+        ans: 1,
+        reminder: "إخفاء بيانات الداتا ست = هدم كامل لمبدأ الاكتمال، ويمنع أي باحث آخر من إعادة التجربة والتحقق من عملك."
+    },
+    { 
+        q: "M3-27. A report includes this statement in the Introduction: “The system achieved 92% accuracy.” What is the problem?", 
+        options: ["A. Incorrect result", "B. Wrong tense", "C. Misplaced content (belongs to Results/Abstract)", "D. Lack of references"], 
+        ans: 2,
+        reminder: "وضع النتيجة الرقمية في المقدمة التمهيدية = خطأ تنظيمي فادح؛ فالنتائج مكانها الطبيعي هو قسم النتائج فقط."
+    },
+    { 
+        q: "M3-28. A student writes: “The proposed method is the best solution.” What is required to make this academically valid?", 
+        options: ["A. Longer explanation", "B. Emotional support", "C. Evidence and comparison with existing methods", "D. More adjectives"], 
+        ans: 2,
+        reminder: "لتثبت أنك الأفضل علمياً = يجب تقديم مقارنة رقمية مادية واضحة مع الأنظمة الحالية المنافسة (Comparison)."
+    },
+    { 
+        q: "M3-29. A report includes only very old references (before 2010) in a modern AI topic. What is the issue?", 
+        options: ["A. Formatting problem", "B. Lack of relevance and credibility", "C. Too many references", "D. Strong literature review"], 
+        ans: 1,
+        reminder: "مراجع قديمة جداً في تخصص الذكاء الاصطناعي = تفقد بحثك مواكبته ومصداقيته لسرعة التطور في هذا المجال."
+    },
+    { 
+        q: "M3-30. A student writes a very long Introduction (3 pages) with general history but no clear problem. What is the main issue?", 
+        options: ["A. Too short", "B. Too technical", "C. Lack of focus and problem definition", "D. Missing diagrams"], 
+        ans: 2,
+        reminder: "المقدمة الطويلة دون تحديد الأزمة = تشتيت للتقرير بسبب غياب التركيز وتحديد المشكلة الأساسية بوضوح."
+    },
+    { 
+        q: "M3-31. A report includes: \n• Objectives: Design and evaluate system \n• Conclusion: System is good \nWhat is missing?", 
+        options: ["A. Formatting", "B. Strong evaluation and connection to objectives", "C. Title page", "D. References"], 
+        ans: 1,
+        reminder: "وصف النظام بأنه (جيد) في النهاية خطأ = يجب ربط الخاتمة بمدى تحقيق الأهداف المحددة بالأدلة والتقييم الحقيقي."
+    },
+    { 
+        q: "M3-32. A report contains: \n• Proper citations in text \n• But missing references in the reference list \nWhat rule is violated?", 
+        options: ["A. Formatting", "B. Consistency between in-text and reference list", "C. Grammar", "D. Structure"], 
+        ans: 1,
+        reminder: "وجود استشهاد داخلي دون مرجع كامل في النهاية = انتهاك خطير لقاعدة الاتساق والمطابقة الإلزامية للفهرس المرجعي."
+    },
+    { 
+        q: "M3-33. A student writes: “This improves performance.” What is the issue?", 
+        options: ["A. Too long", "B. Ambiguous reference (“this”)", "C. Wrong tense", "D. Too formal"], 
+        ans: 1,
+        reminder: "استخدام كلمة (هذا / This) المبهمة = عيب كتابي كبير؛ يجب تحديد الفاعل أو التقنية بدقة لمنع الالتباس."
+    },
+    { 
+        q: "M3-34. Which section defines research scope?", 
+        options: ["A. Abstract", "B. Introduction", "C. References", "D. Appendix"], 
+        ans: 1,
+        reminder: "تحديد نطاق وحدود وأهداف البحث بالكامل = من أهم الوظائف الحيوية لقسم المقدمة (Introduction)."
+    },
+    { 
+        q: "M3-35. A diagram is included without explanation. What is the impact?", 
+        options: ["A. Improves clarity", "B. Reduces understanding", "C. Adds detail", "D. No effect"], 
+        ans: 1,
+        reminder: "وضع مخطط صامت دون مناقشته وشرحه في النص = يشتت القارئ ويقلل من استيعاب وفهم الفكرة المعروضة."
+    },
+    { 
+        q: "M3-36. Which of the following is the biggest risk of using AI in reports?", 
+        options: ["A. Slow writing", "B. Overuse of diagrams", "C. Plagiarism and lack of originality", "D. Too much formatting"], 
+        ans: 2,
+        reminder: "أخطر عيوب الاستخدام الأعمى للذكاء الاصطناعي = السقوط في فخ الانتحال، وفقدان أصالة البحث وبصمتك الخاصة."
+    },
+    { 
+        q: "M3-37. AI-generated content should always be:", 
+        options: ["A. Copied directly", "B. Reviewed and verified by the student", "C. Used without modification", "D. Submitted as final work"], 
+        ans: 1,
+        reminder: "القاعدة الصارمة مع مخرجات الـ AI = المراجعة الدقيقة والتحقق البشري الكامل من كافة البيانات والتواريخ المنبثقة."
+    },
+    { 
+        q: "M3-38. Using AI without understanding the content may lead to:", 
+        options: ["A. Better structure", "B. Improved clarity", "C. Loss of technical accuracy", "D. Faster submission"], 
+        ans: 2,
+        reminder: "النسخ الأعمى دون استيعاب = يؤدي حتماً إلى انهيار الدقة التقنية والعلمية للتقرير وظهور معلومات مغلوطة."
+    },
+    { 
+        q: "M3-40. Which is a correct ethical use of AI?", 
+        options: ["A. Submitting AI output as your own work", "B. Using AI to generate ideas and then rewriting", "C. Avoiding citations", "D. Copy-pasting full sections"], 
+        ans: 1,
+        reminder: "الاستخدام الأخلاقي للذكاء الاصطناعي = الاستعانة به كمساعد للعصف الذهني والأفكار، ثم الصياغة والتحقق بنفسك."
+    },
+    { 
+        q: "M3-41. A student used AI to generate a full Methodology section and submitted it without modification. What is the main issue?", 
+        options: ["A. Poor grammar", "B. Ethical violation and lack of understanding", "C. Incorrect formatting", "D. Missing diagrams"], 
+        ans: 1,
+        reminder: "توليد كامل قسم المنهجية بالذكاء الاصطناعي دون لمسة بشرية = انتهاك أخلاقي صارم يثبت غياب فهم الطالب لمشروعه."
+    },
+    { 
+        q: "M3-42. A student uses AI to generate an Abstract, then edits it, adds results, and verifies data. This represents:", 
+        options: ["A. Plagiarism", "B. Proper academic use of AI", "C. Incorrect methodology", "D. Weak writing"], 
+        ans: 1,
+        reminder: "الاستخدام الصحيح والذكي = توليد الهيكل الأولي بالذكاء الاصطناعي، ثم التدخل البشري بالتعديل وإضافة الأرقام الحقيقية."
+    },
+    { 
+        q: "M3-43. A student relies entirely on AI for Literature Review and includes fake references. This is:", 
+        options: ["A. Acceptable", "B. Minor issue", "C. Serious academic misconduct", "D. Formatting error"], 
+        ans: 2,
+        reminder: "تضمين مراجع وهمية مخترعة بواسطة هلوسة الذكاء الاصطناعي = تزوير وخيانة علمية جسيمة (Academic misconduct)."
+    },
+    { 
+        q: "M3-44. A student uses AI to: \n• Generate outline \n• Suggest structure \n• Improve grammar \nThis is:", 
+        options: ["A. Cheating", "B. Proper assisted writing", "C. Plagiarism", "D. Weak writing"], 
+        ans: 1,
+        reminder: "المساعد المثالي = استخدام الـ AI لوضع الخطوط العريضة، تنظيم الهيكل، وتحسين جودة القواعد واللغة فقط."
+    },
+    { 
+        q: "M3-45. Which of the following describes the correct relationship between AI and technical writing?", 
+        options: ["A. AI replaces engineers", "B. AI writes reports independently", "C. AI is a tool, but responsibility remains with the writer", "D. AI guarantees correctness"], 
+        ans: 2,
+        reminder: "العلاقة القانونية = الذكاء الاصطناعي مجرد أداة مساعدة، والمسؤولية الجنائية والعلمية الكاملة تقع عاتق الكاتب البشري."
+    },
+
+    // ==================== المرحلة الثالثة: صح / خطأ ====================
+    { 
+        q: "M3-TF1. AI tools can completely replace the need for human verification in technical reports.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ يستحيل إلغاء التدقيق البشري نظراً لوجود احتمالية الهلوسة والأخطاء في أنظمة الـ AI." 
+    },
+    { 
+        q: "M3-TF2. Using AI-generated content without understanding it may reduce technical accuracy.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ النسخ دون وعي يضرب عمق وصحة الحقائق والبيانات التقنية داخل تقريرك." 
+    },
+    { 
+        q: "M3-TF3. It is acceptable to submit AI-generated text without modification if it is correct.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ تسليم النصوص الجاهزة دون تدخل وصياغة شخصية يمثل انتهاكاً للملكية الفكرية والأصالة." 
+    },
+    { 
+        q: "M3-TF4. AI can assist in improving grammar and structure in technical writing.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ هذا هو النطاق الأقوى والأكثر أماناً للاستفادة من أدوات الذكاء الاصطناعي." 
+    },
+    { 
+        q: "M3-TF5. AI-generated references are always reliable and should be trusted.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ الـ AI يهلوس كثيراً ويخترع مراجع وهمية بأسماء باحثين حقيقيين، ويجب فحصها مرجعاً مرجعاً." 
+    },
+    { 
+        q: "M3-TF6. Ethical use of AI includes rewriting and verifying generated content.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ الالتزام بالأخلاقيات يتطلب الفحص الشامل وإعادة الصياغة بلسانك وبصمتك الخاصة." 
+    },
+    { 
+        q: "M3-TF7. AI tools can help generate ideas but should not replace critical thinking.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ العصف الذهني فضاء ممتاز للـ AI، لكن التفكير النقدي واتخاذ القرار النهائي ملك للباحث فقط." 
+    },
+    { 
+        q: "M3-TF8. Using AI may introduce fabricated or non-existent citations.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ ظاهرة اختلاق الاستشهادات غير الموجودة في الواقع هي من أكبر عيوب النماذج اللغوية." 
+    },
+    { 
+        q: "M3-TF9. AI-generated content is always plagiarism-free.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ قد يقوم الـ AI بنسخ جمل كاملة من مصادر تدريبه دون الإشارة إليها مما يوقعك في فخ السرقة الأدبية." 
+    },
+    { 
+        q: "M3-TF10. Responsibility for the final report always lies with the student, not the AI tool.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ أنت من ستناقش وتوقع على التقرير، وبالتالي المسؤولية القانونية والأكاديمية كاملة تعود إليك." 
+    },
+    { 
+        q: "M3-TF11. A student uses AI to generate a Methodology section, reviews it, verifies tools, and rewrites it in their own words. This is considered ethical academic use of AI.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ لأن الطالب قام بالتدقيق الكامل، التحقق من الأدوات، وأعاد الصياغة بنفسه؛ هذا عمل مساعد سليم." 
+    },
+    { 
+        q: "M3-TF12. A student copies an AI-generated Literature Review and submits it directly without checking sources. This is acceptable because AI generated the content.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ هذا إهمال فادح وانتهاك للأمانة الأكاديمية يعرض الطالب للمساءلة والرسوب فوراً." 
+    },
+    { 
+        q: "M3-TF13. AI generated:“The system improves performance significantly.” The student keeps it as is. This sentence is technically acceptable in a final report.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ العبارة فضفاضة وتفتقر للعمق التقني والأرقام القياسية الدقيقة التي تثبت حجم هذا التحسن." 
+    },
+    { 
+        q: "M3-TF14. A student uses AI to: Generate outline, Suggest structure , and Improve clarity This is a valid use of AI in technical writing.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ هذا هو التوظيف النموذجي والآمن للذكاء الاصطناعي في بيئات البحث والكتابة الاحترافية." 
+    },
+    { 
+        q: "M3-TF15. A student relies entirely on AI for writing and cannot explain the content during presentation. This indicates proper understanding of the report.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ العجز عن الشرح أثناء مناقشة التقرير أمام التقييم هو الدليل القاطع على عدم الأهلية والغش." 
+    },
+    { 
+        q: "M3-TF16. AI suggests a method that does not match the dataset used in the project, Using it without validation is acceptable if it sounds correct.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ توافق الطريقة مع البيانات شرط أساسي، والاعتماد على الرنين الصوتي للعبارات يدمر التجربة." 
+    },
+    { 
+        q: "M3-TF17. A student uses AI to rewrite a paragraph and adds proper citations afterward. This avoids plagiarism.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ تحسين الأسلوب لغوياً بالـ AI مع التوثيق المرجعي الصحيح للفكرة الأصلية يحميك تماماً من شبهة الانتحال." 
+    },
+    { 
+        q: "M3-TF18. AI generates fake references that look realistic. Including them without verification is a minor issue.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ إدراج مرجع وهمي مخترع هو تزوير متعمد للحقائق وعقوبته الأكاديمية تكون صارمة وقاسية جداً." 
+    },
+    { 
+        q: "M3-TF19. A student uses AI to improve sentence clarity but keeps all technical content original. This improves writing quality without ethical issues.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ استخدام التقنية لتنقيح الأسلوب ورفع جودة التعبير مع الحفاظ على أصالة المضمون التقني أمر مشروع تماماً." 
+    },
+    { 
+        q: "M3-TF20. A student uses AI-generated results that were not actually tested. This is acceptable if the results look reasonable.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ اختراع نتائج رقمية افتراضية لم تختبر في الواقع هو قمة التزوير العلمي ويهدم نزاهة الباحث بالكامل." 
+    },
+    { 
+        q: "M3-TF21. AI can introduce logical inconsistencies between sections if not reviewed carefully.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ لعدم قدرة الـ AI على الربط الفلسفي بعيد المدى، قد يكتب فكرة في قسم تكسر وتناقض فكرة في قسم آخر." 
+    },
+    { 
+        q: "M3-TF22. Using AI reduces the need for understanding technical concepts.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ وجود الآلة يرفع من حاجتك لفهم المفاهيم لتتمكن من مراقبة الآلة وتصحيح أخطائها وهلوساتها." 
+    },
+    { 
+        q: "M3-TF23. AI can help align writing with academic style when used properly.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ يمتلك الذكاء الاصطناعي حصيلة ضخمة من الأنماط الأكاديمية الرصينة ويساعدك على محاكاتها بكفاءة." 
+    },
+    { 
+        q: "M3-TF24. Blind trust in AI outputs may lead to incorrect methodology or results.", 
+        options: ["True", "False"], 
+        ans: 0,
+        reminder: "صحيح؛ الثقة العمياء ودون فحص علمي ناقد تقود بحثك مباشرة إلى الانهيار المعرفي والتجريبي." 
+    },
+    { 
+        q: "M3-TF25. AI-generated writing is always consistent with the project scope.", 
+        options: ["True", "False"], 
+        ans: 1,
+        reminder: "خطأ؛ يميل الـ AI للاسترسال والابتعاد عن النطاق الخاص بالمشروع (Scope creep) ما لم يتم توجيهه بصرامة." 
+    }
+];
+    // مصفوفة الأسئلة المقالية الـ 7 الشاملة والمطابقة للحرف والكلمة لإجابات البنك الرسمية
+    // مصفوفة الأسئلة المقالية النصية بالحرف + طريقة تسهيل الحفظ
+const essays = [
+    {
+        q: "Briefly explain the \"5 Cs\" of technical writing.",
+        arabicMnemonic: "صحة، وضوح، اكتمال، اتساق، تغيير",
+        englishMnemonic: "Correctness, Clarity, Completeness, Consistency, Changeability",
+        points: [
+            "• Correctness: Accuracy of information technically and linguistically. (الصحة: دقة المعلومات تقنياً ولغوياً)",
+            "• Clarity: Each sentence allows only one interpretation. (الوضوح: أن يكون لكل جملة تفسير واحد فقط)",
+            "• Completeness: Including all relevant information. (الاكتمال: تضمين جميع المعلومات ذات الصلة)",
+            "• Consistency: No internal conflicts or conflicts with external sources. (الاتساق: عدم وجود تعارض داخلي أو مع مصادر خارجية)",
+            "• Changeability: Ease of updating and structuring the document. (قابلية التغيير: سهولة تحديث المستند وهيكلته)"
+        ]
+    },
+    {
+        q: "How do you choose the right references for a technical report?",
+        arabicMnemonic: "توازن وتنوع، حداثة المصادر، سلطة المؤلف، تجنب الويب غير الموثوق",
+        englishMnemonic: "Balance, Recency, Authority, Avoid Web",
+        points: [
+            "• Balance and diversity between books, articles, and conference papers. (التوازن والتنوع بين الكتب، المقالات، وأوراق المؤتمرات)",
+            "• Recency of sources (especially in rapidly evolving fields). (حداثة المصادر خاصة في المجالات سريعة التطور)",
+            "• Authority of the author (recognized experts). (سلطة المؤلف: خبراء معروفون)",
+            "• Avoid over-reliance on unreliable sources like the web. (تجنب الاعتماد المفرط على المصادر غير الموثوقة مثل الويب)"
+        ]
+    },
+    {
+        q: "What is the difference between a Descriptive Abstract and an Executive Summary?",
+        arabicMnemonic: "الوصفي: غرض ومحتوى على صفحة العنوان | التنفيذي: حقائق واستنتاجات ونصف الطول",
+        englishMnemonic: "Descriptive: Overview & title page | Executive: Facts, conclusions & 1/10 to 1/20 length",
+        points: [
+            "A descriptive abstract provides an overview of the purpose and contents only, often placed on the title page.",
+            "(الملخص الوصفي يعطي نظرة عامة على الغرض والمحتويات فقط، وغالباً ما يوضع على صفحة العنوان.)",
+            "An executive summary summarizes key facts and conclusions, is about 1/10 to 1/20 the length of the report, and ensures important information is seen even if the reader doesn't read the full report.",
+            "(أما الملخص التنفيذي فيلخص الحقائق والاستنتاجات الرئيسية، ويعادل 1/10 إلى 1/20 من طول التقرير، ويضمن رؤية المعلومات المهمة حتى لو لم يقرأ القارئ التقرير كاملاً.)"
+        ]
+    },
+    {
+        q: "What are the main functions of a technical report's introduction?",
+        arabicMnemonic: "نقطة البداية، المهمة والأهداف، المتطلبات التقنية، أبعاد متعددة، تحفيز القارئ",
+        englishMnemonic: "Starting point, Task & objectives, Prerequisites, Multidisciplinary, Motivating",
+        points: [
+            "• Defining the starting point and initial situation of the project. (تحديد نقطة البداية والوضع الأولي للمشروع)",
+            "• Formal description of the task and objectives. (الوصف الرسمي للمهمة والأهداف)",
+            "• Describing basic technical prerequisites. (وصف المتطلبات التقنية الأساسية)",
+            "• Providing a multidisciplinary perspective (economic, environmental, legal). (تقديم منظور متعدد التخصصات: اقتصادي، بيئي، قانوني)",
+            "• Motivating and engaging the reader. (تحفيز القارئ وجذبه لقراءة التقرير)"
+        ]
+    },
+    {
+        q: "Explain three types of final sections in technical reports.",
+        arabicMnemonic: "ملخصات (إعادة أفكار)، استنتاجات (أحكام ونماذج)، خواتيم (مستقبل بلا تحليل)",
+        englishMnemonic: "Summaries (Reiterate), True Conclusions (Judgments), Afterwords (Future outlook)",
+        points: [
+            "• Summaries: Reiterate the most important ideas and results. (الملخصات: تعيد صياغة أهم الأفكار والنتائج)",
+            "• True Conclusions: Present final judgments based on analysis (e.g., which model is best). (الاستنتاجات الحقيقية: تقدم أحكاماً نهائية بناءً على التحليل مثل أي نموذج هو الأفضل)",
+            "• Afterwords: Discuss a related topic with a general future outlook without detailed analysis. (الخواتيم: تناقش موضوعاً ذا صلة بنظرة مستقبلية عامة دون تحليل مفصل)"
+        ]
+    },
+    {
+        q: "Define academic plagiarism and mention three of its forms.",
+        arabicMnemonic: "التعريف: عمل غيرك كأنه لك | الأشكال: نسخ ولصق، صياغة جزئية، انتحال ذاتي",
+        englishMnemonic: "Definition: Someone else's work | Forms: Copy-paste, Patch-writing, Self-plagiarism",
+        points: [
+            "Plagiarism is presenting someone else's work as your own. Its forms include:",
+            "• Copying and pasting text without attribution. (نسخ ولصق النص دون نسبه للمؤلف)",
+            "• Patch-writing: Changing a few words while retaining the original structure. (إعادة الصياغة الجزئية: تغيير بضع كلمات مع الاحتفاظ بالبنية الأصلية)",
+            "• Self-plagiarism: Reusing your own previously published work without citation. (الانتحال الذاتي: إعادة استخدام عملك المنشور سابقاً دون اقتباس)"
+        ]
+    },
+    {
+        q: "What is the difference between an in-text citation and a full reference?",
+        arabicMnemonic: "داخل النص: إشارة موجزة (اسم وسنة) | المرجع الكامل: قائمة مفصلة نهاية المستند بكل البيانات",
+        englishMnemonic: "In-text: Brief reference (author & year) | Full reference: Detailed list at the end with all info",
+        points: [
+            "An in-text citation is a brief reference within the document's text (e.g., author and year) that directs the reader to the source used. (الاستشهاد داخل النص هو إشارة موجزة داخل نص المستند مثل اسم المؤلف والسنة تدل القارئ على المصدر المستخدم.)",
+            "A full reference is a detailed list at the end of the document containing all the information (author, title, publisher, date, pages) that enables the reader to identify and locate the source. (المرجع الكامل هو قائمة مفصلة في نهاية المستند تحتوي على جميع المعلومات التي تمكن القارئ من تحديد المصدر والعثور عليه.)"
+        ]
+    },
+    {
+        q: "What is the difference between Technical Writing and Business Writing?",
+        arabicMnemonic: "تقنية: مجتمع صناعي، تقارير ومواصفات وهدفها توجيه | تجارية: إدارة وتجارة وخطابات وهدفها دعم قرارات | مشترك: ثالوث الكتابة",
+        englishMnemonic: "Technical: Industrial, SOPs & guide | Business: Commerce, memos & decisions | Common: Trinity of Good Writing",
+        points: [
+            "Technical Writing focuses on the industrial community and physical sciences. It is used in technical reports, SOPs, and engineering specifications. Its primary goal is to inform and guide with high precision.",
+            "Business Writing focuses on commerce and administration. It is used in memoranda, formal letters, and administrative reports. Its primary goal is to support business operations and decision-making.",
+            "Common Ground: Both share the \"Trinity of Good Writing\": clarity, conciseness, and objectivity."
+        ]
+    },
+    {
+        q: "Explain the importance of referencing in technical writing?",
+        arabicMnemonic: "مصداقية، حماية من الانتحال، تتبع المصادر الأصلية",
+        englishMnemonic: "Credibility, Protects from plagiarism, Trace original sources",
+        points: [
+            "Referencing gives work credibility and protects it from plagiarism, while linking the writer's knowledge to existing knowledge and allowing readers to trace original sources.",
+            "(الاستشهاد المرجعي يمنح العمل المصداقية ويحميه من الانتحال الفكري، كما يربط معرفة الكاتب بالمعرفة الموجودة ويسمح للقراء بتتبع المصادر الأصلية.)"
+        ]
+    },
+    {
+        q: "Write a good technical objective for a project: “Online Learning System”",
+        arabicMnemonic: "يجب أن يكون قابل للقياس | المثال: تقليل وقت الاستجابة 25% وتحسين التفاعل",
+        englishMnemonic: "Must be measurable | Example: reduces student response time by 25% and improves engagement",
+        points: [
+            "• Must be measurable",
+            "• Example: “Design and evaluate an online learning system that reduces student response time by 25% and improves user engagement.”"
+        ]
+    },
+    {
+        q: "Mention 3 common mistakes in Abstract writing",
+        arabicMnemonic: "طويل جداً، يحتوي مراجع، نقص نتائج، كتابة مبنية على الرأي",
+        englishMnemonic: "Too long, Including references, Lack of results, Opinion-based writing",
+        points: [
+            "• Too long",
+            "• Including references",
+            "• Lack of results",
+            "• Opinion-based writing"
+        ]
+    },
+    {
+        q: "Given Paragraph: “The system is very powerful... Identify 3 problems and rewrite it technically.",
+        arabicMnemonic: "المشاكل: عامية، لا أرقام، ادعاء غير مدعوم | التعديل: إدخال نسب دقيقة",
+        englishMnemonic: "Problems: Informal, No metrics, Unsupported claim | Rewrite: Add accuracy & speed percentages",
+        points: [
+            "Problems: Informal language, No metrics, Unsupported claim",
+            "Rewrite: “The proposed system achieved 90% accuracy and improved processing speed by 30% compared to baseline methods.”"
+        ]
+    },
+    {
+        q: "“AI-based plant disease detection system” IT Must include:",
+        ans: "اختصار POMR (مشكلة، هدف، طريقة، نتيجة)",
+        englishMnemonic: "P.O.M.R (Problem, Objective, Method, Result)",
+        points: [
+            "• Problem",
+            "• Objective",
+            "• Method",
+            "• Result"
+        ]
+    },
+    {
+        q: "Mention 2 risks of using AI in academic writing.",
+        arabicMnemonic: "انتحال، معلومات غير دقيقة، نقص فهم، مراجع وهمية",
+        englishMnemonic: "Plagiarism, Inaccurate information, Lack of understanding, Fake references",
+        points: [
+            "• Plagiarism",
+            "• Inaccurate information",
+            "• Lack of understanding",
+            "• Fake references"
+        ]
+    },
+    {
+        q: "Explain why AI can improve writing quality but harm academic integrity if misused.",
+        arabicMnemonic: "تحسين: القواعد واللغة والمنطق | ضرر: بيانات خاطئة ومراجع وهمية وانتحال بلا فهم",
+        englishMnemonic: "Improve: grammar, vocabulary, logic | Harm: inaccurate data, fake references, plagiarism",
+        points: [
+            "AI can improve writing quality by enhancing grammar, vocabulary, and structuring sentences logically.",
+            "However, it can harm academic integrity if misused by generating inaccurate or hallucinated data, creating fake references, or leading to plagiarism through unauthorized text generation without deep human understanding."
+        ]
+    }
+];
+    // وظائف التهيئة والبناء البرمجي واظهار النتائج
+    function initQuiz() {
+        document.getElementById('total-q-count').innerText = questions.length;
+        const quizContainer = document.getElementById('quiz-container');
+        quizContainer.innerHTML = ""; 
+
+        questions.forEach((qData, qIndex) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = `q-card-${qIndex}`;
+
+            const qText = document.createElement('div');
+            qText.className = 'question-text';
+            qText.innerText = qData.q;
+            card.appendChild(qText);
+
+            const optionsList = document.createElement('ul');
+            optionsList.className = 'options-list';
+
+            qData.options.forEach((opt, oIndex) => {
+                const optItem = document.createElement('li');
+                optItem.className = 'option-item';
+                optItem.innerText = opt;
+                optItem.setAttribute('onclick', `checkAnswer(${qIndex}, ${oIndex}, ${qData.ans})`);
+                optionsList.appendChild(optItem);
+            });
+
+            card.appendChild(optionsList);
+
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback-box';
+            feedback.id = `feedback-${qIndex}`;
+            feedback.innerHTML = `💡 <b>التوجيه المباشر:</b> ${qData.hint}`;
+            card.appendChild(feedback);
+
+            quizContainer.appendChild(card);
+        });
+    }
+
+    function initEssays() {
+        const essayContainer = document.getElementById('essay-container');
+        essayContainer.innerHTML = ""; 
+        essays.forEach((essayData, eIdx) => {
+            const card = document.createElement('div');
+            card.className = 'essay-card';
+
+            const qTitle = document.createElement('div');
+            qTitle.className = 'essay-question';
+            qTitle.innerText = `Q${eIdx+1}: ${essayData.q}`;
+            card.appendChild(qTitle);
+
+            const mnemonicBox = document.createElement('div');
+            mnemonicBox.className = 'mnemonic-container';
+            mnemonicBox.innerHTML = `
+                <div class="mnemonic-title">💡 مفاتيح تذكر ثنائية اللغة لتدشين الإجابة في العقل:</div>
+                <div>• <b>باللغة العربية:</b> ${essayData.arabicMnemonic}</div>
+                <div>• <b>In English:</b> ${essayData.englishMnemonic}</div>
+            `;
+            card.appendChild(mnemonicBox);
+
+            const ansBlock = document.createElement('div');
+            ansBlock.className = 'essay-answer-block';
+
+            essayData.points.forEach((pointText, pIdx) => {
+                const pointDiv = document.createElement('div');
+                pointDiv.className = 'essay-point';
+                
+                const uniqueId = `hide-${eIdx}-${pIdx}`;
+                pointDiv.innerHTML = `
+                    <button class="reveal-btn" onclick="revealText('${uniqueId}')">Show Line Detail</button>
+                    <span class="hidden-text" id="${uniqueId}">${pointText}</span>
+                `;
+                ansBlock.appendChild(pointDiv);
+            });
+
+            card.appendChild(ansBlock);
+            essayContainer.appendChild(card);
+        });
+    }
+
+    function checkAnswer(qIndex, selectedIndex, correctIndex) {
+    const card = document.getElementById(`q-card-${qIndex}`);
+    const items = card.getElementsByClassName('option-item');
+    const feedbackBox = document.getElementById(`feedback-${qIndex}`);
+
+    // تعطيل الاختيارات وإبراز الإجابة الصحيحة باللون الأخضر
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.add('disabled');
+        if (i === correctIndex) {
+            items[i].classList.add('correct');
+        }
+    }
+
+    // تحديد حالة الإجابة لبناء رسالة النتيجة والـ Feedback التذكيري
+    let isCorrect = (selectedIndex === correctIndex);
+    let statusText = "";
+
+    if (!isCorrect) {
+        items[selectedIndex].classList.add('wrong');
+        card.setAttribute('data-result', 'wrong');
+        statusText = "<b style='color: #e74c3c;'>إجابة خاطئة! ❌</b>";
+    } else {
+        card.setAttribute('data-result', 'correct');
+        statusText = "<b style='color: #2ecc71;'>إجابة صحيحة! 🎉</b>";
+    }
+
+    // جلب الكلمة المفتاحية التذكيرية من المصفوفة بناءً على رقم السؤال الحالي
+    const currentReminder = questions[qIndex].reminder || "لا يوجد مفتاح تذكر متاح لهذا السؤال.";
+
+    // حقن النتيجة + الكلمة المفتاحية السحرية داخل صندوق الـ feedback
+    feedbackBox.innerHTML = `
+        <div style="margin-bottom: 8px;">${statusText}</div>
+        <div class="reminder-text" style="background: #fdf6e2; border-right: 4px solid #f39c12; padding: 8px; border-radius: 4px;">
+            💡 <b>مفتاح التذكر السريع:</b> ${currentReminder}
+        </div>
+    `;
+
+    // إظهار الصندوق بالكامل للمستخدم
+    feedbackBox.style.display = 'block';
+}
+    function calculateResult() {
+        let correctCount = 0;
+        const cards = document.getElementsByClassName('question-card');
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].getAttribute('data-result') === 'correct') {
+                correctCount++;
+            }
+        }
+        const scorePercent = ((correctCount / questions.length) * 100).toFixed(1);
+        const resultBox = document.getElementById('result-box');
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `📊 التقرير النهائي للنتيجة الإجمالية:<br>الإجابات الصحيحة: ${correctCount} من أصل ${questions.length}<br>نسبة دقة الاستدعاء: ${scorePercent}%`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    
+
+    function revealText(id) {
+        document.getElementById(id).classList.toggle('revealed');
+    }
+
+    window.onload = function() {
+        initQuiz();
+        initEssays();
+    };
+
+function revealAllAnswers() {
+    console.log("تم البدء في تنفيذ دالة عرض جميع الإجابات...");
+
+    // ==================== الجزء الأول: الأسئلة الاختيارية والـ Quiz ====================
+    try {
+        if (typeof questions !== 'undefined' && questions.length > 0) {
+            for (let qIndex = 0; qIndex < questions.length; qIndex++) {
+                const card = document.getElementById(`q-card-${qIndex}`);
+                if (!card) continue;
+
+                const items = card.getElementsByClassName('option-item');
+                const feedbackBox = document.getElementById(`feedback-${qIndex}`);
+                const correctIndex = questions[qIndex].ans;
+
+                for (let i = 0; i < items.length; i++) {
+                    items[i].classList.add('disabled');
+                    if (i === correctIndex) {
+                        items[i].classList.add('correct');
+                    }
+                }
+
+                if (!card.hasAttribute('data-result')) {
+                    card.setAttribute('data-result', 'revealed');
+                }
+
+                const currentReminder = questions[qIndex].reminder || "متاح لهذا السؤال.";
+                if (feedbackBox) {
+                    feedbackBox.innerHTML = `
+                        <div style="margin-bottom: 8px;"><b style="color: #2980b9;">إظهار الإجابة المرجعية 📖</b></div>
+                        <div class="reminder-text" style="background: #fdf6e2; border-right: 4px solid #f39c12; padding: 8px; border-radius: 4px; color: #333; text-align: right;">
+                            💡 <b>مفتاح التذكر السريع:</b> ${currentReminder}
+                        </div>
+                    `;
+                    feedbackBox.style.display = 'block';
+                }
+            }
+            console.log("تمت معالجة قسم الاختياري بنجاح.");
+        }
+    } catch (error) {
+        console.error("حدث خطأ في قسم الأسئلة الاختيارية: ", error);
+    }
+
+    // ==================== الجزء الثاني: الأسئلة المقالية (Essay) ====================
+    try {
+        const essayContainer = document.getElementById('essay-container');
+        
+        // جلب البيانات واجبار بناء الكروت
+        if (essayContainer) {
+            if (essayContainer.innerHTML.trim() === "" || essayContainer.childNodes.length === 0) {
+                console.log("حاوية المقالي فارغة، يتم استدعاء initEssays الآن...");
+                if (typeof initEssays === 'function') {
+                    initEssays();
+                } else {
+                    console.error("تحذير: دالة initEssays غير معرفة في هذا الملف!");
+                }
+            }
+
+            // إظهار النصوص المخفية وإخفاء أزرار التفاصيل
+            const hiddenTexts = essayContainer.querySelectorAll('.hidden-text');
+            hiddenTexts.forEach(textSpan => {
+                textSpan.style.display = 'inline'; 
+            });
+            
+            const revealBtns = essayContainer.querySelectorAll('.reveal-btn');
+            revealBtns.forEach(btn => {
+                btn.style.display = 'none'; 
+            });
+            
+            console.log("تمت معالجة وعرض القسم المقالي بنجاح.");
+        } else {
+            console.error("خطأ: لم يتم العثور على عنصر HTML يحمل المعرف 'essay-container'");
+        }
+    } catch (error) {
+        console.error("حدث خطأ أثناء محاولة عرض القسم المقالي: ", error);
+    }
+
+    // ==================== الجزء الثالث: تحديث شكل الزر المضغطوط ====================
+    const mainBtn = document.getElementById('reveal-all-btn');
+    if (mainBtn) {
+        mainBtn.style.backgroundColor = '#7f8c8d'; 
+        mainBtn.style.pointerEvents = 'none'; 
+        mainBtn.innerHTML = "📋 تم عرض الإجابات والمفاتيح للقسمين";
+    }
+}
+
+</script>
+</body>
+</html>
